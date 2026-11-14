@@ -10,7 +10,16 @@
   <link rel="stylesheet" href="sales-nav.css">
   <link rel="stylesheet" href="language-picker.css">
   <link rel="stylesheet" href="embed.css">
-</head>
+  <style>
+  body.embed-mode .demo-navigation-link { display: none; }
+</style>
+<script>
+  if (new URLSearchParams(window.location.search).get("embed") === "1") {
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.classList.add("embed-mode");
+    });
+  }
+</script></head>
 <body>
   <main class="page-shell">
     <header class="topbar">
@@ -21,7 +30,7 @@
       <div class="topbar-actions"><label class="language-picker-label"><span class="sr-only">Sprache</span><select id="language-picker" aria-label="Sprache auswählen"><option value="de">DE</option><option value="da">DA</option><option value="en">EN</option><option value="no">NO</option><option value="sv">SV</option></select></label><a class="operator-link" id="operator-link" href="angebot.html">Für Campingplätze</a><span class="demo-pill"><i></i> DEMO · V0.1</span></div>
     </header>
 <div style="text-align:center; padding:15px;">
-  <a href="demo.html" style="color:#285e58; font-weight:bold;">
+  <a href="demo.html" class="demo-navigation-link" style="color:#285e58; font-weight:bold;">
     Campingplatz-Demo ansehen →
   </a>
 </div>
