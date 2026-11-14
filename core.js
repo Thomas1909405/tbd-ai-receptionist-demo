@@ -176,7 +176,7 @@
       request: {
         de: /buchungsanfrage|aufenthalt anfragen|reservierungsanfrage|ich möchte.*(buchen|reservieren)|(?:buchen|reservieren).*möchte/,
         da: /forespørg.*ophold|vil gerne.*(booke|sende en forespørgsel)|anmod.*ophold/,
-        en: /stay enquiry|booking enquiry|i('d| would) like to (book|enquire)|i want to (book|enquire)/,
+        en: /stay enquiry|booking enquiry|i('d| would) like to (book|enquire)|i want to (book|enquire)|can i (book|reserve)|could i (book|reserve)|make a reservation|book a pitch|reserve a pitch/i,
         no: /forespørsel.*(opphold|bestilling)|bestillingsforespørsel|jeg vil gjerne.*(bestille|sende en forespørsel)/,
         sv: /förfrågan.*(vistelse|bokning)|bokningsförfrågan|jag vill gärna.*(boka|skicka en förfrågan)/
       },
