@@ -26,10 +26,10 @@
   const requestedLanguage = params.get("lang");
   let language = ["de", "da", "en", "no", "sv"].includes(requestedLanguage) ? requestedLanguage : detectLanguage();
   languagePicker.value = language;
-
-  const tr = (key) => window.TBD_LOCALES[language]?.[key] ?? window.TBD_LOCALES.de[key];
-  const profileLocale = (item = profile) => item.locales?.[language] || {};
-  const profileName = (item = profile) => profileLocale(item).name || item.name;
+let responseLanguage = language;
+const tr = (key, lang = language) => window.TBD_LOCALES[lang]?.[key] ?? window.TBD_LOCALES.de[key];
+const profileLocale = (item = profile, lang = language) => item.locales?.[lang] || {};
+const profileName = (item = profile) => profileLocale(item).name || item.name;
 
   if (!profile) throw new Error("Kein TBD-Kundenprofil geladen.");
 
@@ -53,10 +53,15 @@
     messages.appendChild(bubble);
     messages.scrollTop = messages.scrollHeight;
   }
-  function fact(key) {
+  function fact(key, lang = language) {
+    const locale = profileLocale(profile, lang);
+    return locale.facts?.[key] || profile.facts?.[key] ||
+        locale.unconfiguredReply || profile.unconfiguredReply || "...";
+}
     return profileLocale().facts?.[key] || profile.facts?.[key] || profileLocale().unconfiguredReply || profile.unconfiguredReply || "Dazu liegt für diesen Betrieb noch keine bestätigte Information vor.";
   }
   function applyLanguage() {
+    responseLanguage = language;
     const ui = window.TBD_LOCALES[language];
     document.documentElement.lang = language;
     document.title = ui.title.replace("Nordsee Camping Resort", profileName());
@@ -114,10 +119,10 @@
     heroKickerText.textContent = profileName().toLocaleUpperCase(localeTag);
     addMessage(tr("welcome").replace("{name}", profileName()));
   }
-  function startRequest() {
-    const ui = window.TBD_LOCALES[language];
+ function startRequest() {
+  const ui = window.TBD_LOCALES[responseLanguage] || window.TBD_LOCALES.de;
     const labels = ui.bookingLabels;
-    const types = profileLocale().bookingTypes || ui.bookingTypes;
+    const types = profile.locales?.[responseLanguage]?.bookingTypes || ui.bookingTypes;
     addMessage(ui.requestIntro);
     const wrap = document.createElement("div");
     wrap.className = "message bot";
@@ -155,9 +160,21 @@
     wrap.appendChild(booking); messages.appendChild(wrap); messages.scrollTop = messages.scrollHeight;
     quick.hidden = true; input.focus();
   }
-  function answer(raw) {
+  function detectMessageLanguage(raw) {
+    const text = raw.toLowerCase();
+
+    if (/\b(ich|möchte|kann|haben|dürfen|anreise)\b/.test(text) || /[äüß]/.test(text)) return "de";
+
+    if (/\b(hvad|hvornår|gerne|tage|jeres)\b/.test(text)) return "da";
+
+    if (/\b(hello|please|can|would|where|when|booking|pitch)\b/.test(text)) return "en";
+
+    return language;    
+}
+function answer(raw) {
+    responseLanguage = detectMessageLanguage(raw);
     const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[language];
-    const q = raw.toLocaleLowerCase(localeTag);
+const q = raw.toLocaleLowerCase(localeTag);
     const patterns = {
       emergency: {
         de: /notfall|akute gefahr|lebensgefahr|brand|feuer|unfall|schwer verletzt|medizinischer notfall/,
@@ -258,35 +275,43 @@
         sv: /pris|kostar|tillgänglig|ledig|beläggning/
       }
     };
-    const matches = (key) => patterns[key][language].test(q);
+    const matches = (key) => patterns[key][responseLanguage].test(q);
     if (matches("emergency")) {
-      addMessage(tr("emergency"));
+     addMessage(tr("emergency", responseLanguage));
       return;
     }
     const asksAboutWalkIn = matches("walkIn");
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
-    if (matches("pitches")) replies.push(fact("pitches"));
-    if (matches("accommodation")) replies.push(fact("accommodation"));
-    if (matches("checkin")) replies.push(`${fact("checkin")} ${fact("checkout")}`);
-    if (matches("dogs")) replies.push(fact("dogs"));
-    if (/wi.?fi|internet/.test(q) || (language === "de" && /wlan/.test(q))) replies.push(fact("wifi"));
-    if (matches("electricity")) replies.push(fact("electricity"));
-    if (matches("sanitary")) replies.push(fact("sanitary"));
-    if (asksAboutWalkIn) replies.push(fact("walkIn"));
-    if (matches("quiet")) replies.push(fact("quietPeriods"));
-    if (matches("activities")) replies.push(fact("activities"));
-    if (matches("waterSports")) replies.push(fact("waterSports"));
+    if (matches("pitches")) replies.push(fact("pitches", responseLanguage));
+    if (matches("accommodation")) replies.push(fact("accommodation", responseLanguage));
+    if (matches("checkin")) replies.push(`${fact("checkin", responseLanguage)} ${fact("checkout", responseLanguage)}`);
+   if (matches("dogs")) replies.push(fact("dogs", responseLanguage));
+    if (/wi.?fi|internet/.test(q) || (responseLanguage === "de" && /wlan/.test(q))) replies.push(fact("wifi", responseLanguage));
+    if (matches("electricity")) replies.push(fact("electricity", responseLanguage));
+    if (matches("sanitary")) replies.push(fact("sanitary", responseLanguage));
+    if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
+    if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
+    if (matches("activities")) replies.push(fact("activities", responseLanguage));
+    if (matches("waterSports")) replies.push(fact("waterSports", responseLanguage));
     if (matches("contact")) {
       const channels = profile.contactChannels || {};
-      const details = [channels.phone && `${tr("contactPhone")}: ${channels.phone}`, channels.email && `${tr("contactEmail")}: ${channels.email}`].filter(Boolean);
-      replies.push(details.length ? `${tr("contactPrefix")}\n${details.join("\n")}` : profileLocale().contactMissing || tr("contactMissing"));
+
+const details = [
+    channels.phone && `${tr("contactPhone", responseLanguage)}: ${channels.phone}`,
+    channels.email && `${tr("contactEmail", responseLanguage)}: ${channels.email}`
+].filter(Boolean);
+
+replies.push(
+    details.length
+        ? `${tr("contactPrefix", responseLanguage)}\n${details.join("\n")}`
+        : profileLocale(profile, responseLanguage).contactMissing || tr("contactMissing", responseLanguage)
+);
     }
-    if (matches("prices")) replies.push(tr("priceAvailability"));
+    if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
     if (replies.length) return addMessage(replies.join("\n\n"));
-    return addMessage(profileLocale().fallbackReply || profile.fallbackReply || `${fact("unknown")} Ich möchte nichts erfinden. Wenn du einen Aufenthalt planst, kann ich eine unverbindliche Anfrage zusammenstellen.`);
-  }
+return addMessage(profileLocale(profile, responseLanguage).fallbackReply || tr("fallbackReply", responseLanguage) || fact("unknown", responseLanguage));  }
   form.addEventListener("submit", (event) => {
     event.preventDefault(); const value = input.value.trim(); if (!value) return;
     addMessage(value, "user"); input.value = ""; answer(value);
