@@ -84,7 +84,25 @@
 <script>
   const demoLink = document.getElementById("camping-demo-link");
   const languageSelect = document.getElementById("language-picker");
+const demoLinkTexts = {
+  de: "Campingplatz-Demo ansehen →",
+  da: "Se campingplads-demo →",
+  en: "View campsite demo →",
+  no: "Se campingplass-demo →",
+  sv: "Se campingplatsdemo →"
+};
 
+function updateDemoLinkText() {
+  if (!demoLink || !languageSelect) return;
+
+  demoLink.textContent =
+    demoLinkTexts[languageSelect.value] || demoLinkTexts.de;
+}
+
+if (languageSelect) {
+  languageSelect.addEventListener("change", updateDemoLinkText);
+  updateDemoLinkText();
+}
   if (demoLink && languageSelect) {
     demoLink.addEventListener("click", function () {
       const selectedLanguage = languageSelect.value;
