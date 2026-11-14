@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f1e8">
+  <title>Einbettungs-Vorschau · Küstenblick Camping</title>
+  <style>
+    :root{--ink:#243d3b;--muted:#6d7d76;--sand:#d7c39e;--paper:#f3f1e8;--line:#e3e1d6}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
+    .site-nav{height:72px;padding:0 max(24px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;background:#fffefa;border-bottom:1px solid var(--line)}
+    .brand{font-family:Georgia,serif;font-size:23px;letter-spacing:.02em}.brand small{display:block;margin-top:4px;font:9px Arial,sans-serif;letter-spacing:.2em;color:var(--muted)}
+    .nav-actions{display:flex;align-items:center;gap:14px}.demo-label{font-size:9px;font-weight:700;letter-spacing:.13em;color:#897752}.language-switch select{border:1px solid var(--line);border-radius:5px;background:#fffefa;color:var(--ink);padding:8px 10px;font:12px Arial,sans-serif}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .hero{max-width:1120px;margin:0 auto;padding:58px 24px 38px;display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center}
+    .kicker{font-size:10px;font-weight:bold;letter-spacing:.19em;color:#8a795e}.hero h1{margin:12px 0;font:500 clamp(38px,5vw,58px)/1.08 Georgia,serif}.hero h1 em{color:#638176;font-weight:normal}.hero p{max-width:510px;color:var(--muted);line-height:1.75;font-size:15px}
+    .landscape{height:230px;border-radius:4px;background:linear-gradient(#dce8df 0 48%,#9fbbb1 48% 69%,#d6c6a5 69%);position:relative;overflow:hidden}.sun{position:absolute;right:19%;top:27px;width:52px;height:52px;background:#eed4a8;border-radius:50%}.dune{position:absolute;bottom:-66px;width:120%;height:140px;border-radius:50% 50% 0 0;background:#caba98;transform:rotate(-5deg)}.dune.front{bottom:-94px;left:23%;height:150px;background:#a99d80;transform:rotate(6deg)}
+    .welcome{max-width:900px;margin:0 auto;padding:10px 24px 14px}.welcome h2{font:500 30px Georgia,serif;margin:0 0 8px}.welcome p{color:var(--muted);font-size:13px;margin:0}
+    .chat-embed{max-width:900px;margin:0 auto 58px;padding:0 24px}.chat-embed iframe{display:block;width:100%;height:720px;border:1px solid #e4e5dc;border-radius:10px;background:#f6f5ef;box-shadow:0 14px 36px #314e3b12}
+    .site-footer{padding:24px;text-align:center;background:#e8e6dc;color:var(--muted);font-size:11px}
+    @media(max-width:700px){.site-nav{height:60px;padding:0 14px}.brand{font-size:19px}.brand small{font-size:7px}.nav-actions{gap:8px}.demo-label{font-size:7px}.language-switch select{padding:7px 6px;font-size:11px}.hero{grid-template-columns:1fr;gap:20px;padding:34px 18px 26px}.hero h1{font-size:42px}.landscape{height:180px}.welcome{padding:8px 18px 13px}.welcome h2{font-size:26px}.chat-embed{padding:0 10px;margin-bottom:32px}.chat-embed iframe{height:760px;border-radius:8px}}
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="brand"><span id="brand-name">Küstenblick</span><small id="brand-subtitle">CAMPING AN DER NORDSEE</small></div>
+    <div class="nav-actions"><span class="demo-label" id="demo-label">LOKALE DEMO</span><label class="language-switch"><span class="sr-only" id="language-label">Sprache auswählen</span><select id="page-language" aria-label="Sprache auswählen"><option value="de">Deutsch</option><option value="en">English</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="sv">Svenska</option></select></label></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><div class="kicker" id="hero-kicker">ANKOMMEN · DURCHATMEN · MEER</div><h1 id="hero-title">Dein Platz<br><em>am weiten Meer.</em></h1><p id="hero-copy">Diese fiktive Beispielseite zeigt, wie ein Campingplatz seinen digitalen Gästeservice direkt auf der eigenen Website einbinden könnte.</p></div>
+      <div class="landscape" role="img" id="hero-art" aria-label="Abstrakte Dünenlandschaft"><span class="sun"></span><span class="dune"></span><span class="dune front"></span></div>
+    </section>
+    <section class="welcome"><h2 id="welcome-title">Fragen zu deinem Aufenthalt?</h2><p id="welcome-copy">Der digitale Gästeservice hilft dir mit Informationen aus dem Beispielprofil.</p></section>
+    <section class="chat-embed" aria-label="Eingebetteter Chat – Demo">
+      <iframe id="guest-chat" src="index.html?embed=1&amp;site=nordsee-camping-resort&amp;lang=de" title="Digitaler Gästeservice · Demo" loading="lazy"></iframe>
+    </section>
+  </main>
+  <footer class="site-footer" id="site-footer">Fiktive Beispielseite · Der eingebettete Chat ist eine lokale Demo mit erfundenen Platzangaben.</footer>
+  <script>
+    const pageText = {
+      de: { title: "Einbettungs-Vorschau · Küstenblick Camping", subtitle: "CAMPING AN DER NORDSEE", demo: "LOKALE DEMO", language: "Sprache auswählen", kicker: "ANKOMMEN · DURCHATMEN · MEER", hero: "Dein Platz<br><em>am weiten Meer.</em>", copy: "Diese fiktive Beispielseite zeigt, wie ein Campingplatz seinen digitalen Gästeservice direkt auf der eigenen Website einbinden könnte.", art: "Abstrakte Dünenlandschaft", welcome: "Fragen zu deinem Aufenthalt?", welcomeCopy: "Der digitale Gästeservice hilft dir mit Informationen aus dem Beispielprofil.", chat: "Digitaler Gästeservice · Demo", footer: "Fiktive Beispielseite · Der eingebettete Chat ist eine lokale Demo mit erfundenen Platzangaben." },
+      en: { title: "Embed preview · Küstenblick Camping", subtitle: "NORTH SEA COAST CAMPING", demo: "LOCAL DEMO", language: "Choose language", kicker: "ARRIVE · UNWIND · BY THE SEA", hero: "Your place<br><em>by the open sea.</em>", copy: "This fictional example shows how a campsite could add a digital guest assistant to its own website.", art: "Abstract North Sea dunes", welcome: "Questions about your stay?", welcomeCopy: "The digital guest service uses information from the sample profile.", chat: "Digital guest service · Demo", footer: "Fictional example site · The embedded chat is a local demo with made-up campsite information." },
+      da: { title: "Indlejringsdemo · Küstenblick Camping", subtitle: "CAMPING VED VESTERHAVET", demo: "LOKAL DEMO", language: "Vælg sprog", kicker: "ANKOM · SLAP AF · VED HAVET", hero: "Din plads<br><em>ved det åbne hav.</em>", copy: "Denne fiktive eksempelside viser, hvordan en campingplads kan integrere digital gæsteservice på sin egen hjemmeside.", art: "Abstrakte klitter ved Vesterhavet", welcome: "Spørgsmål om dit ophold?", welcomeCopy: "Den digitale gæsteservice bruger oplysninger fra demoprofilen.", chat: "Digital gæsteservice · Demo", footer: "Fiktiv eksempelside · Den indlejrede chat er en lokal demo med opdigtede pladsoplysninger." },
+      no: { title: "Forhåndsvisning · Küstenblick Camping", subtitle: "CAMPING VED NORDSJØEN", demo: "LOKAL DEMO", language: "Velg språk", kicker: "ANKOM · SENK SKULDRENE · VED SJØEN", hero: "Din plass<br><em>ved det åpne havet.</em>", copy: "Denne fiktive eksempelsiden viser hvordan en campingplass kan integrere digital gjesteservice på sin egen nettside.", art: "Abstrakte sanddyner ved Nordsjøen", welcome: "Spørsmål om oppholdet ditt?", welcomeCopy: "Den digitale gjesteservicen bruker informasjon fra demoprofilen.", chat: "Digital gjesteservice · Demo", footer: "Fiktiv eksempelside · Den innebygde chatten er en lokal demo med oppdiktede plassopplysninger." },
+      sv: { title: "Förhandsvisning · Küstenblick Camping", subtitle: "CAMPING VID NORDSJÖN", demo: "LOKAL DEMO", language: "Välj språk", kicker: "ANKOM · KOPPLA AV · VID HAVET", hero: "Din plats<br><em>vid det öppna havet.</em>", copy: "Den här fiktiva exempelsidan visar hur en campingplats kan integrera digital gästservice på sin egen webbplats.", art: "Abstrakta sanddyner vid Nordsjön", welcome: "Frågor om din vistelse?", welcomeCopy: "Den digitala gästservicen använder information från demoprofilen.", chat: "Digital gästservice · Demo", footer: "Fiktiv exempelsida · Den inbäddade chatten är en lokal demo med påhittad platsinformation." }
+    };
+    const pageLanguage = document.querySelector("#page-language");
+    const guestChat = document.querySelector("#guest-chat");
+    function setPageLanguage(language) {
+      const text = pageText[language] || pageText.de;
+      document.documentElement.lang = language;
+      document.title = text.title;
+      document.querySelector("#brand-subtitle").textContent = text.subtitle;
+      document.querySelector("#demo-label").textContent = text.demo;
+      pageLanguage.setAttribute("aria-label", text.language);
+      document.querySelector("#language-label").textContent = text.language;
+      document.querySelector("#hero-kicker").textContent = text.kicker;
+      document.querySelector("#hero-title").innerHTML = text.hero;
+      document.querySelector("#hero-copy").textContent = text.copy;
+      document.querySelector("#hero-art").setAttribute("aria-label", text.art);
+      document.querySelector("#welcome-title").textContent = text.welcome;
+      document.querySelector("#welcome-copy").textContent = text.welcomeCopy;
+      document.querySelector(".chat-embed").setAttribute("aria-label", text.chat);
+      guestChat.title = text.chat;
+      document.querySelector("#site-footer").textContent = text.footer;
+      guestChat.src = `index.html?embed=1&site=nordsee-camping-resort&lang=${language}`;
+    }
+    pageLanguage.addEventListener("change", () => setPageLanguage(pageLanguage.value));
+    const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    pageLanguage.value = pageText[requestedLanguage] ? requestedLanguage : "de";
+    setPageLanguage(pageLanguage.value);
+  </script>
+</body>
+</html>
+
+

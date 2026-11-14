@@ -1,0 +1,20 @@
+/* Reduced presentation for an iframe preview. This is still a local demo, not a hosted customer widget. */
+.embed-mode{background:var(--paper)}
+.embed-mode .page-shell{max-width:none;margin:0;padding:0 14px}
+.embed-mode .topbar{height:54px;border:0}
+.embed-mode .topbar .brand{display:none}
+.embed-mode .profile-picker-label{display:none}
+.embed-mode #operator-link,
+.embed-mode .hero,
+.embed-mode footer{display:none}
+.embed-mode .chat-section{max-width:760px;margin:0 auto 14px}
+.embed-mode .chat-heading{margin:0 2px 10px}
+.embed-mode .chat-heading h2{font-size:24px}
+.embed-mode .chat-card{box-shadow:none}
+@media(max-width:700px){
+  .embed-mode .page-shell{padding:0 8px}
+  .embed-mode .topbar{height:42px}
+  .embed-mode .chat-heading{margin-bottom:7px}
+  .embed-mode .chat-heading h2{font-size:21px}
+  .embed-mode .chat-section{margin-bottom:8px}
+}
