@@ -52,6 +52,7 @@
     const pageLanguage = document.querySelector("#page-language");
     const guestChat = document.querySelector("#guest-chat");
     function setPageLanguage(language) {
+      
       const text = pageText[language] || pageText.de;
       document.documentElement.lang = language;
       document.title = text.title;
@@ -67,6 +68,7 @@
 
 document.querySelector("#back-to-tbd").textContent =
   backLinkTexts[language] || backLinkTexts.de;
+      document.querySelector("#back-to-tbd").href = "index.html?lang=" + encodeURIComponent(language);
       pageLanguage.setAttribute("aria-label", text.language);
       document.querySelector("#language-label").textContent = text.language;
       document.querySelector("#hero-kicker").textContent = text.kicker;
