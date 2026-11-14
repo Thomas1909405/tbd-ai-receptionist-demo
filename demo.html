@@ -26,7 +26,7 @@
   <header class="site-nav">
     <div class="brand"><span id="brand-name">Küstenblick</span><small id="brand-subtitle">CAMPING AN DER NORDSEE</small></div>
     <div class="nav-actions"><span class="demo-label" id="demo-label">DEMO · V0.1</span><label class="language-switch"><span class="sr-only" id="language-label">Sprache auswählen</span><select id="page-language" aria-label="Sprache auswählen"><option value="de">Deutsch</option><option value="en">English</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="sv">Svenska</option></select></label></div>
-  <a href="index.html" style="display:block; text-align:center; padding:12px; color:#285e58; font-weight:bold;">
+  <a href="index.html" id="back-to-tbd" style="display:block; text-align:center; padding:12px; color:#285e58; font-weight:bold;">
   ← Zurück zu TBD AI Solutions
 </a>
 </header>
@@ -57,6 +57,16 @@
       document.title = text.title;
       document.querySelector("#brand-subtitle").textContent = text.subtitle;
       document.querySelector("#demo-label").textContent = "DEMO · V0.1";
+      const backLinkTexts = {
+  de: "← Zurück zu TBD AI Solutions",
+  da: "← Tilbage til TBD AI Solutions",
+  en: "← Back to TBD AI Solutions",
+  no: "← Tilbake til TBD AI Solutions",
+  sv: "← Tillbaka till TBD AI Solutions"
+};
+
+document.querySelector("#back-to-tbd").textContent =
+  backLinkTexts[language] || backLinkTexts.de;
       pageLanguage.setAttribute("aria-label", text.language);
       document.querySelector("#language-label").textContent = text.language;
       document.querySelector("#hero-kicker").textContent = text.kicker;
