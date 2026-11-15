@@ -251,8 +251,8 @@ let bookingRequest = null;
 
     const text = raw.toLowerCase();
 
-    if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|husbil)\b/i.test(text)) {
-        bookingRequest.accommodation = "motorhome";
+if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|bobilen|husbil|husbilen)\b/i.test(text)) {
+  bookingRequest.accommodation = "motorhome";
         return true;
     }
 
