@@ -292,6 +292,40 @@ let bookingRequest = null;
 
     return true;
 }
+  function createBookingSummary(language) {
+    const labels = {
+        de: "Ihre unverbindliche Buchungsanfrage",
+        da: "Din uforpligtende bookingforespørgsel",
+        en: "Your non-binding booking enquiry",
+        no: "Din uforpliktende bestillingsforespørsel",
+        sv: "Din icke-bindande bokningsförfrågan"
+    };
+
+    const accommodationNames = {
+        motorhome: {
+            de: "Wohnmobil", da: "Autocamper", en: "Motorhome",
+            no: "Bobil", sv: "Husbil"
+        },
+        caravan: {
+            de: "Wohnwagen", da: "Campingvogn", en: "Caravan",
+            no: "Campingvogn", sv: "Husvagn"
+        },
+        tent: {
+            de: "Zelt", da: "Telt", en: "Tent",
+            no: "Telt", sv: "Tält"
+        }
+    };
+
+    const r = bookingRequest;
+
+    return `${labels[language]}\n\n` +
+        `Anreise: ${r.arrival || "Noch nicht angegeben"}\n` +
+        `Nächte: ${r.nights ?? "Noch nicht angegeben"}\n` +
+        `Erwachsene: ${r.adults ?? "Noch nicht angegeben"}\n` +
+        `Kinder: ${r.children ?? "Noch nicht angegeben"}\n` +
+        `Unterkunft: ${r.accommodation ? accommodationNames[r.accommodation][language] : "Noch nicht angegeben"}\n\n` +
+        "Dies ist eine unverbindliche Anfrage, keine bestätigte Buchung.";
+}
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
     const bookingInProgress = bookingRequest !== null;
@@ -308,10 +342,11 @@ let bookingRequest = null;
         sv: "Tack så mycket! 😊 Jag har noterat antalet gäster."
     };
 
-    addMessage(confirmations[responseLanguage]);
-    return;
+    addMessage(createBookingSummary(responseLanguage));
+return;
 }
-if (bookingInProgress && bookingRequest.nights === null && saveBookingNights(raw)) {    const nextQuestions = {
+if (bookingInProgress && bookingRequest.nights === null && saveBookingNights(raw)) {
+  const nextQuestions = {
         de: "Vielen Dank! 😊 Mit wie vielen Erwachsenen und Kindern reisen Sie an?",
         da: "Mange tak! 😊 Hvor mange voksne og børn rejser I med?",
         en: "Thank you! 😊 How many adults and children will be travelling?",
