@@ -210,6 +210,7 @@ let bookingRequest = null;
 }
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
+    const bookingInProgress = bookingRequest !== null;
     const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[responseLanguage];
 const q = raw.toLocaleLowerCase(localeTag);
     const patterns = {
@@ -326,6 +327,7 @@ const q = raw.toLocaleLowerCase(localeTag);
     }
     const asksAboutWalkIn = matches("walkIn");
   const bookingInterest = matches("bookingInterest");
+    if (bookingInterest && !bookingInProgress) startBookingRequest();
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
