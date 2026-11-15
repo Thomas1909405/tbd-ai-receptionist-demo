@@ -201,6 +201,7 @@ if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
 let bookingRequest = null;
   function startBookingRequest() {
     bookingRequest = {
+      language: responseLanguage,
         arrival: null,
         nights: null,
         adults: null,
@@ -375,9 +376,14 @@ const fields = {
         f.notice;
 }
   function answer(raw) {
-    responseLanguage = detectMessageLanguage(raw);
+    responseLanguage = bookingRequest
+    ? bookingRequest.language
+    : detectMessageLanguage(raw);
+    
     const bookingInProgress = bookingRequest !== null;
+    
     if (bookingInProgress) saveBookingAccommodation(raw);
+    
     if (bookingInProgress && bookingRequest.arrival === null) {
     saveBookingArrival(raw);
 }
