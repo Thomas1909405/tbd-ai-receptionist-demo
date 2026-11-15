@@ -303,6 +303,7 @@ if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|bobilen|husbil|husbilen)\
 const fields = {
     de: {
         arrival: "Anreise",
+        departure: "Abreise",
         nights: "Nächte",
         adults: "Erwachsene",
         children: "Kinder",
@@ -312,6 +313,7 @@ const fields = {
     },
     da: {
         arrival: "Ankomst",
+        departure: "Afrejse",
         nights: "Nætter",
         adults: "Voksne",
         children: "Børn",
@@ -321,6 +323,7 @@ const fields = {
     },
     en: {
         arrival: "Arrival",
+        departure: "Departure",
         nights: "Nights",
         adults: "Adults",
         children: "Children",
@@ -330,6 +333,7 @@ const fields = {
     },
     no: {
         arrival: "Ankomst",
+        departure: "Avreise",
         nights: "Netter",
         adults: "Voksne",
         children: "Barn",
@@ -339,6 +343,7 @@ const fields = {
     },
     sv: {
         arrival: "Ankomst",
+        departure: "Avresa",
         nights: "Nätter",
         adults: "Vuxna",
         children: "Barn",
@@ -361,13 +366,19 @@ const fields = {
             no: "Telt", sv: "Tält"
         }
     };
-
         const r = bookingRequest;
     const f = fields[language] || fields.de;
+    let departure = f.missing;
     const lang = labels[language] ? language : "de";
+    if (r.arrival && Number.isInteger(r.nights) && r.nights > 0) {
+    const date = new Date(r.arrival + "T00:00:00Z");
+    date.setUTCDate(date.getUTCDate() + r.nights);
+    departure = date.toISOString().slice(0, 10);
+}
 
     return `${labels[lang]}\n\n` +
         `${f.arrival}: ${r.arrival || f.missing}\n` +
+        `${f.departure}: ${departure}\n` +
         `${f.nights}: ${r.nights ?? f.missing}\n` +
         `${f.adults}: ${r.adults ?? f.missing}\n` +
         `${f.children}: ${r.children ?? f.missing}\n` +
