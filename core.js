@@ -380,7 +380,7 @@ const fields = {
     : detectMessageLanguage(raw);
     
     const bookingInProgress = bookingRequest !== null;
-    
+    console.log("TBD Buchungsstatus:", bookingRequest);
     if (bookingInProgress) saveBookingAccommodation(raw);
     
     if (bookingInProgress && bookingRequest.arrival === null) {
