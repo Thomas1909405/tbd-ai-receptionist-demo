@@ -179,7 +179,9 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
     for (const [lang, regex] of Object.entries(signals)) {
         scores[lang] = [...text.matchAll(regex)].length;
     }
-
+if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
+    scores.no += 3;
+}
     const highest = Math.max(...Object.values(scores));
 
     if (highest === 0) return language;
