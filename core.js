@@ -222,11 +222,46 @@ let bookingRequest = null;
     bookingRequest.nights = nights;
     return true;
 }
+  function saveBookingGuests(raw) {
+    if (!bookingRequest) return false;
+
+    const adultsMatch = raw.match(
+        /\b(\d{1,2})\s*(erwachsene|erwachsenen|voksne|adults|vuxna)\b/i
+    );
+
+    const childrenMatch = raw.match(
+        /\b(\d{1,2})\s*(kinder|kind|børn|children|child|barn)\b/i
+    );
+
+    if (!adultsMatch) return false;
+
+    const adults = Number(adultsMatch[1]);
+    const children = childrenMatch ? Number(childrenMatch[1]) : null;
+
+    if (adults < 1 || adults > 20) return false;
+    if (children !== null && children > 20) return false;
+
+    bookingRequest.adults = adults;
+    bookingRequest.children = children;
+
+    return true;
+}
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
     const bookingInProgress = bookingRequest !== null;
-    if (bookingInProgress && saveBookingNights(raw)) {
-    const nextQuestions = {
+    if (bookingInProgress && bookingRequest.nights !== null && saveBookingGuests(raw)) {
+    const confirmations = {
+        de: "Vielen Dank! 😊 Ich habe Ihre Angaben zur Personenzahl aufgenommen.",
+        da: "Mange tak! 😊 Jeg har noteret antallet af gæster.",
+        en: "Thank you! 😊 I've noted the number of guests.",
+        no: "Tusen takk! 😊 Jeg har notert antall gjester.",
+        sv: "Tack så mycket! 😊 Jag har noterat antalet gäster."
+    };
+
+    addMessage(confirmations[responseLanguage]);
+    return;
+}
+if (bookingInProgress && bookingRequest.nights === null && saveBookingNights(raw)) {    const nextQuestions = {
         de: "Vielen Dank! 😊 Mit wie vielen Erwachsenen und Kindern reisen Sie an?",
         da: "Mange tak! 😊 Hvor mange voksne og børn rejser I med?",
         en: "Thank you! 😊 How many adults and children will be travelling?",
