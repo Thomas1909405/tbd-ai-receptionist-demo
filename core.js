@@ -182,6 +182,9 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
 if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
     scores.no += 3;
 }
+    if (/\b(får jag|ta med min hund|har ni|husbil)\b/.test(text)) {
+    scores.sv += 4;
+}
     const highest = Math.max(...Object.values(scores));
 
     if (highest === 0) return language;
