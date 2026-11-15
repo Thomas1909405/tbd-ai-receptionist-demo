@@ -169,8 +169,7 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
 
         en: /\b(hello|please|would|where|when|booking|pitch|can i|do you|is there|how much|available|arrival|departure|thank you)\b/g,
 
-        no: /\b(jeg|hva|hvor|når|gjerne|dere|kjæledyr|bobil|bestille|overnatting|ankommer|kan jeg|har dere|hytta|ta med|hunden min)\b/g,
-
+        no: /\b(hei|jeg|vi|hva|hvor|når|gjerne|dere|ønsker|ankomme|morgen|bobil|bobilen|vår|kjæledyr|bestille|overnatting|ankommer|kan jeg|har dere|hytta|ta med|hunden min)\b/g,
         sv: /\b(jag|vad|när|gärna|får|finns|husbil|husvagn|stuga|boende|boka|ankommer|kan jag|har ni|tack)\b|[äö]/g
     };
 
@@ -516,7 +515,7 @@ const q = raw.toLocaleLowerCase(localeTag);
     de: /möchte.{0,150}(anreisen|buchen|reservieren)|möchten.{0,150}(anreisen|buchen|reservieren)|würde.{0,150}buchen/,
     da: /vil gerne.{0,40}(ankomme|booke|reservere)|ønsker at booke/,
     en: /would like to.{0,40}(arrive|book|reserve)|want to book/,
-    no: /vil gjerne.{0,40}(ankomme|bestille|reservere)|ønsker å bestille/,
+    no: /vil gjerne.{0,60}(ankomme|bestille|reservere)|ønsker å.{0,60}(ankomme|bestille|reservere)|ønsker å booke/,    
     sv: /vill gärna.{0,40}(ankomma|boka|reservera)|vill boka/
 }
     };
