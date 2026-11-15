@@ -58,8 +58,7 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
     return locale.facts?.[key] || profile.facts?.[key] ||
         locale.unconfiguredReply || profile.unconfiguredReply || "...";
 }
-    return profileLocale().facts?.[key] || profile.facts?.[key] || profileLocale().unconfiguredReply || profile.unconfiguredReply || "Dazu liegt für diesen Betrieb noch keine bestätigte Information vor.";
-  }
+  
   function applyLanguage() {
     responseLanguage = language;
     const ui = window.TBD_LOCALES[language];
@@ -163,17 +162,37 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
   function detectMessageLanguage(raw) {
     const text = raw.toLowerCase();
 
-    if (/\b(ich|möchte|kann|haben|dürfen|anreise)\b/.test(text) || /[äüß]/.test(text)) return "de";
+    const signals = {
+        de: /\b(ich|möchte|können|kann|haben|dürfen|darf|meinen|meine|gibt|welche|wann|anreise|stellplatz|wohnmobil|übernachten)\b|[äüß]/g,
 
-    if (/\b(hvad|hvornår|gerne|tage|jeres)\b/.test(text)) return "da";
+        da: /\b(jeg|hvad|hvornår|gerne|jeres|må|medbringe|ankommer|overnatning|campingplads|autocamper|kan jeg|har i)\b|[æø]/g,
 
-    if (/\b(hello|please|can|would|where|when|booking|pitch)\b/.test(text)) return "en";
+        en: /\b(hello|please|would|where|when|booking|pitch|can i|do you|is there|how much|available|arrival|departure|thank you)\b/g,
 
-    return language;    
-}
+        no: /\b(jeg|hva|hvor|når|gjerne|dere|kjæledyr|bobil|bestille|overnatting|ankommer|kan jeg|har dere|hytta)\b/g,
+
+        sv: /\b(jag|vad|när|gärna|får|finns|husbil|husvagn|stuga|boende|boka|ankommer|kan jag|har ni|tack)\b|[äö]/g
+    };
+
+    const scores = {};
+
+    for (const [lang, regex] of Object.entries(signals)) {
+        scores[lang] = [...text.matchAll(regex)].length;
+    }
+
+    const highest = Math.max(...Object.values(scores));
+
+    if (highest === 0) return language;
+
+    const winners = Object.keys(scores).filter(
+        lang => scores[lang] === highest
+    );
+
+    return winners.includes(language) ? language : winners[0];
+  }   
 function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
-    const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[language];
+    const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[responseLanguage];
 const q = raw.toLocaleLowerCase(localeTag);
     const patterns = {
       emergency: {
@@ -311,7 +330,8 @@ replies.push(
     }
     if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
     if (replies.length) return addMessage(replies.join("\n\n"));
-return addMessage(profileLocale(profile, responseLanguage).fallbackReply || tr("fallbackReply", responseLanguage) || fact("unknown", responseLanguage));  }
+return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
+}
   form.addEventListener("submit", (event) => {
     event.preventDefault(); const value = input.value.trim(); if (!value) return;
     addMessage(value, "user"); input.value = ""; answer(value);
