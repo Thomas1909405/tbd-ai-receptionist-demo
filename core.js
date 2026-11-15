@@ -562,12 +562,16 @@ replies.push(
     }
   if (bookingInterest) {
     const bookingReplies = {
-       de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 Eine aktuelle Verfügbarkeit kann ich in dieser Demo noch nicht prüfen und keine Buchung vornehmen. Wie viele Nächte möchten Sie bleiben?",
-        da: "Dejligt, at I planlægger et ophold hos os! 😊 Jeg kan endnu ikke kontrollere ledige pladser eller foretage bookinger i denne demo. Ankomstdato, antal nætter og antal personer er nyttige oplysninger til en forespørgsel.",
-        en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings yet. Your arrival date, number of nights and number of guests are useful details for an enquiry.",
-        no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ennå ikke sjekke ledige plasser eller gjennomføre bestillinger. Ankomstdato, antall netter og antall personer er nyttige opplysninger for en forespørsel.",
-        sv: "Vad roligt att ni planerar en vistelse hos oss! 😊 Den här demon kan ännu inte kontrollera lediga platser eller genomföra bokningar. Ankomstdatum, antal nätter och antal personer är bra uppgifter för en förfrågan."
-    };
+    de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 In dieser Demo kann ich noch keine Verfügbarkeit prüfen oder Buchungen vornehmen. Wie viele Nächte möchten Sie bleiben?",
+
+    da: "Dejligt, at I planlægger et ophold hos os! 😊 I denne demo kan jeg endnu ikke kontrollere ledige pladser eller foretage bookinger. Hvor mange nætter ønsker I at blive?",
+
+    en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings yet. How many nights would you like to stay?",
+
+    no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ennå ikke sjekke ledige plasser eller gjennomføre bestillinger. Hvor mange netter ønsker dere å bli?",
+
+    sv: "Vad roligt att ni planerar en vistelse hos oss! 😊 Den här demon kan ännu inte kontrollera lediga platser eller genomföra bokningar. Hur många nätter vill ni stanna?"
+};
 
     replies.unshift(bookingReplies[responseLanguage]);
 }
