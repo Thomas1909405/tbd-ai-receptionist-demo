@@ -246,9 +246,59 @@ let bookingRequest = null;
 
     return true;
 }
+  function saveBookingAccommodation(raw) {
+    if (!bookingRequest) return false;
+
+    const text = raw.toLowerCase();
+
+    if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|husbil)\b/i.test(text)) {
+        bookingRequest.accommodation = "motorhome";
+        return true;
+    }
+
+    if (/\b(wohnwagen|campingvogn|caravan|husvagn)\b/i.test(text)) {
+        bookingRequest.accommodation = "caravan";
+        return true;
+    }
+
+    if (/\b(zelt|telt|tent|tält)\b/i.test(text)) {
+        bookingRequest.accommodation = "tent";
+        return true;
+    }
+
+    return false;
+}
+  function saveBookingArrival(raw) {
+    if (!bookingRequest) return false;
+
+    const text = raw.toLowerCase();
+
+    const tomorrowWords = /\b(morgen|tomorrow|imorgon|i morgon)\b/i;
+    const todayWords = /\b(heute|today|i dag|idag)\b/i;
+
+    const arrivalDate = new Date();
+
+    if (tomorrowWords.test(text)) {
+        arrivalDate.setDate(arrivalDate.getDate() + 1);
+    } else if (!todayWords.test(text)) {
+        return false;
+    }
+
+    const year = arrivalDate.getFullYear();
+    const month = String(arrivalDate.getMonth() + 1).padStart(2, "0");
+    const day = String(arrivalDate.getDate()).padStart(2, "0");
+
+    bookingRequest.arrival = `${year}-${month}-${day}`;
+
+    return true;
+}
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
     const bookingInProgress = bookingRequest !== null;
+    if (bookingInProgress) saveBookingAccommodation(raw);
+    if (bookingInProgress && bookingRequest.arrival === null) {
+    saveBookingArrival(raw);
+}
     if (bookingInProgress && bookingRequest.nights !== null && saveBookingGuests(raw)) {
     const confirmations = {
         de: "Vielen Dank! 😊 Ich habe Ihre Angaben zur Personenzahl aufgenommen.",
@@ -388,7 +438,11 @@ const q = raw.toLocaleLowerCase(localeTag);
     }
     const asksAboutWalkIn = matches("walkIn");
   const bookingInterest = matches("bookingInterest");
-    if (bookingInterest && !bookingInProgress) startBookingRequest();
+if (bookingInterest && !bookingInProgress) {
+    startBookingRequest();
+    saveBookingAccommodation(raw);
+    saveBookingArrival(raw);
+}    
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
