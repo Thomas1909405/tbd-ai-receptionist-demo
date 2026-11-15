@@ -300,7 +300,53 @@ let bookingRequest = null;
         no: "Din uforpliktende bestillingsforespørsel",
         sv: "Din icke-bindande bokningsförfrågan"
     };
-
+const fields = {
+    de: {
+        arrival: "Anreise",
+        nights: "Nächte",
+        adults: "Erwachsene",
+        children: "Kinder",
+        accommodation: "Unterkunft",
+        missing: "Noch nicht angegeben",
+        notice: "Dies ist eine unverbindliche Anfrage, keine bestätigte Buchung."
+    },
+    da: {
+        arrival: "Ankomst",
+        nights: "Nætter",
+        adults: "Voksne",
+        children: "Børn",
+        accommodation: "Overnatningstype",
+        missing: "Ikke angivet endnu",
+        notice: "Dette er en uforpligtende forespørgsel, ikke en bekræftet booking."
+    },
+    en: {
+        arrival: "Arrival",
+        nights: "Nights",
+        adults: "Adults",
+        children: "Children",
+        accommodation: "Accommodation",
+        missing: "Not specified yet",
+        notice: "This is a non-binding enquiry, not a confirmed booking."
+    },
+    no: {
+        arrival: "Ankomst",
+        nights: "Netter",
+        adults: "Voksne",
+        children: "Barn",
+        accommodation: "Overnattingstype",
+        missing: "Ikke oppgitt ennå",
+        notice: "Dette er en uforpliktende forespørsel, ikke en bekreftet bestilling."
+    },
+    sv: {
+        arrival: "Ankomst",
+        nights: "Nätter",
+        adults: "Vuxna",
+        children: "Barn",
+        accommodation: "Boendetyp",
+        missing: "Inte angivet ännu",
+        notice: "Detta är en icke-bindande förfrågan, inte en bekräftad bokning."
+    }
+};
     const accommodationNames = {
         motorhome: {
             de: "Wohnmobil", da: "Autocamper", en: "Motorhome",
@@ -316,15 +362,17 @@ let bookingRequest = null;
         }
     };
 
-    const r = bookingRequest;
+        const r = bookingRequest;
+    const f = fields[language] || fields.de;
+    const lang = labels[language] ? language : "de";
 
-    return `${labels[language]}\n\n` +
-        `Anreise: ${r.arrival || "Noch nicht angegeben"}\n` +
-        `Nächte: ${r.nights ?? "Noch nicht angegeben"}\n` +
-        `Erwachsene: ${r.adults ?? "Noch nicht angegeben"}\n` +
-        `Kinder: ${r.children ?? "Noch nicht angegeben"}\n` +
-        `Unterkunft: ${r.accommodation ? accommodationNames[r.accommodation][language] : "Noch nicht angegeben"}\n\n` +
-        "Dies ist eine unverbindliche Anfrage, keine bestätigte Buchung.";
+    return `${labels[lang]}\n\n` +
+        `${f.arrival}: ${r.arrival || f.missing}\n` +
+        `${f.nights}: ${r.nights ?? f.missing}\n` +
+        `${f.adults}: ${r.adults ?? f.missing}\n` +
+        `${f.children}: ${r.children ?? f.missing}\n` +
+        `${f.accommodation}: ${r.accommodation ? accommodationNames[r.accommodation][lang] : f.missing}\n\n` +
+        f.notice;
 }
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
