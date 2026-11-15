@@ -169,7 +169,7 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
 
         en: /\b(hello|please|would|where|when|booking|pitch|can i|do you|is there|how much|available|arrival|departure|thank you)\b/g,
 
-        no: /\b(jeg|hva|hvor|når|gjerne|dere|kjæledyr|bobil|bestille|overnatting|ankommer|kan jeg|har dere|hytta)\b/g,
+        no: /\b(jeg|hva|hvor|når|gjerne|dere|kjæledyr|bobil|bestille|overnatting|ankommer|kan jeg|har dere|hytta|ta med|hunden min)\b/g,
 
         sv: /\b(jag|vad|när|gärna|får|finns|husbil|husvagn|stuga|boende|boka|ankommer|kan jag|har ni|tack)\b|[äö]/g
     };
