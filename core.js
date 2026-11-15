@@ -195,7 +195,20 @@ if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
 
     return winners.includes(language) ? language : winners[0];
   }   
-function answer(raw) {
+
+  // TBD AI Receptionist V0.5
+// Speichert die Angaben einer laufenden Buchungsanfrage.
+let bookingRequest = null;
+  function startBookingRequest() {
+    bookingRequest = {
+        arrival: null,
+        nights: null,
+        adults: null,
+        children: null,
+        accommodation: null
+    };
+}
+  function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
     const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[responseLanguage];
 const q = raw.toLocaleLowerCase(localeTag);
