@@ -209,13 +209,10 @@ let bookingRequest = null;
     };
 }
   function saveBookingNights(raw) {
-    console.log("TBD Nächte-Eingabe:", JSON.stringify(raw));
     if (!bookingRequest) return false;
 
     const match = raw.match(/\b(\d{1,2})\s*(nächte|nacht|nætter|nætter|nights|netter|nätter)\b/i);
-    
-    console.log("TBD Nächte-Treffer:", match);
-    
+        
     if (!match) return false;
 
     const nights = Number(match[1]);
@@ -383,7 +380,6 @@ const fields = {
     : detectMessageLanguage(raw);
     
     const bookingInProgress = bookingRequest !== null;
-    console.log("TBD Buchungsstatus:", bookingRequest);
     if (bookingInProgress) saveBookingAccommodation(raw);
     
     if (bookingInProgress && bookingRequest.arrival === null) {
