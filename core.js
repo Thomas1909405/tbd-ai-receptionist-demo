@@ -213,7 +213,9 @@ let bookingRequest = null;
     if (!bookingRequest) return false;
 
     const match = raw.match(/\b(\d{1,2})\s*(nächte|nacht|nætter|nætter|nights|netter|nätter)\b/i);
-
+    
+    console.log("TBD Nächte-Treffer:", match);
+    
     if (!match) return false;
 
     const nights = Number(match[1]);
