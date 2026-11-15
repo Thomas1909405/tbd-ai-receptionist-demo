@@ -297,7 +297,14 @@ const q = raw.toLocaleLowerCase(localeTag);
         en: /price|cost|available|availability|vacan|free pitch/,
         no: /pris|koster|tilgjengelig|ledig|belegg/,
         sv: /pris|kostar|tillgänglig|ledig|beläggning/
-      }
+      },
+      bookingInterest: {
+    de: /möchte.{0,40}(anreisen|buchen|reservieren)|möchten.{0,40}(anreisen|buchen|reservieren)|würde.{0,40}buchen/,
+    da: /vil gerne.{0,40}(ankomme|booke|reservere)|ønsker at booke/,
+    en: /would like to.{0,40}(arrive|book|reserve)|want to book/,
+    no: /vil gjerne.{0,40}(ankomme|bestille|reservere)|ønsker å bestille/,
+    sv: /vill gärna.{0,40}(ankomma|boka|reservera)|vill boka/
+}
     };
     const matches = (key) => patterns[key][responseLanguage].test(q);
     if (matches("emergency")) {
@@ -305,6 +312,7 @@ const q = raw.toLocaleLowerCase(localeTag);
       return;
     }
     const asksAboutWalkIn = matches("walkIn");
+  const bookingInterest = matches("bookingInterest");
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
@@ -333,6 +341,17 @@ replies.push(
         : profileLocale(profile, responseLanguage).contactMissing || tr("contactMissing", responseLanguage)
 );
     }
+  if (bookingInterest) {
+    const bookingReplies = {
+        de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 Eine aktuelle Verfügbarkeit kann ich in dieser Demo noch nicht prüfen und keine Buchung vornehmen. Für eine Anfrage sind Anreisedatum, Aufenthaltsdauer und Personenzahl hilfreich.",
+        da: "Dejligt, at I planlægger et ophold hos os! 😊 Jeg kan endnu ikke kontrollere ledige pladser eller foretage bookinger i denne demo. Ankomstdato, antal nætter og antal personer er nyttige oplysninger til en forespørgsel.",
+        en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings yet. Your arrival date, number of nights and number of guests are useful details for an enquiry.",
+        no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ennå ikke sjekke ledige plasser eller gjennomføre bestillinger. Ankomstdato, antall netter og antall personer er nyttige opplysninger for en forespørsel.",
+        sv: "Vad roligt att ni planerar en vistelse hos oss! 😊 Den här demon kan ännu inte kontrollera lediga platser eller genomföra bokningar. Ankomstdatum, antal nätter och antal personer är bra uppgifter för en förfrågan."
+    };
+
+    replies.unshift(bookingReplies[responseLanguage]);
+}
     if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
     if (replies.length) return addMessage(replies.join("\n\n"));
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
