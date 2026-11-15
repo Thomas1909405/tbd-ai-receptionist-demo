@@ -208,9 +208,35 @@ let bookingRequest = null;
         accommodation: null
     };
 }
+  function saveBookingNights(raw) {
+    if (!bookingRequest) return false;
+
+    const match = raw.match(/\b(\d{1,2})\s*(nächte|nacht|nætter|nætter|nights|netter|nätter)\b/i);
+
+    if (!match) return false;
+
+    const nights = Number(match[1]);
+
+    if (nights < 1 || nights > 30) return false;
+
+    bookingRequest.nights = nights;
+    return true;
+}
   function answer(raw) {
     responseLanguage = detectMessageLanguage(raw);
     const bookingInProgress = bookingRequest !== null;
+    if (bookingInProgress && saveBookingNights(raw)) {
+    const nextQuestions = {
+        de: "Vielen Dank! 😊 Mit wie vielen Erwachsenen und Kindern reisen Sie an?",
+        da: "Mange tak! 😊 Hvor mange voksne og børn rejser I med?",
+        en: "Thank you! 😊 How many adults and children will be travelling?",
+        no: "Tusen takk! 😊 Hvor mange voksne og barn reiser dere med?",
+        sv: "Tack så mycket! 😊 Hur många vuxna och barn reser ni med?"
+    };
+
+    addMessage(nextQuestions[responseLanguage]);
+    return;
+}
     const localeTag = ({ de: "de-DE", da: "da-DK", en: "en-GB", no: "nb-NO", sv: "sv-SE" })[responseLanguage];
 const q = raw.toLocaleLowerCase(localeTag);
     const patterns = {
@@ -358,7 +384,7 @@ replies.push(
     }
   if (bookingInterest) {
     const bookingReplies = {
-        de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 Eine aktuelle Verfügbarkeit kann ich in dieser Demo noch nicht prüfen und keine Buchung vornehmen. Für eine Anfrage sind Anreisedatum, Aufenthaltsdauer und Personenzahl hilfreich.",
+       de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 Eine aktuelle Verfügbarkeit kann ich in dieser Demo noch nicht prüfen und keine Buchung vornehmen. Wie viele Nächte möchten Sie bleiben?",
         da: "Dejligt, at I planlægger et ophold hos os! 😊 Jeg kan endnu ikke kontrollere ledige pladser eller foretage bookinger i denne demo. Ankomstdato, antal nætter og antal personer er nyttige oplysninger til en forespørgsel.",
         en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings yet. Your arrival date, number of nights and number of guests are useful details for an enquiry.",
         no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ennå ikke sjekke ledige plasser eller gjennomføre bestillinger. Ankomstdato, antall netter og antall personer er nyttige opplysninger for en forespørsel.",
