@@ -165,8 +165,8 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
     const signals = {
         de: /\b(ich|möchte|können|kann|haben|dürfen|darf|meinen|meine|gibt|welche|wann|anreise|stellplatz|wohnmobil|übernachten)\b|[äüß]/g,
 
-        da: /\b(jeg|hvad|hvornår|gerne|jeres|må|medbringe|ankommer|overnatning|campingplads|autocamper|kan jeg|har i)\b|[æø]/g,
-
+        da: /\b(jeg|hvad|hvornår|gerne|jeres|vores|vil|må|medbringe|ankomme|ankommer|overnatning|campingplads|autocamper|kan jeg|har i)\b|[æø]/g,
+      
         en: /\b(hello|please|would|where|when|booking|pitch|can i|do you|is there|how much|available|arrival|departure|thank you)\b/g,
 
         no: /\b(hei|jeg|vi|hva|hvor|når|gjerne|dere|ønsker|ankomme|morgen|bobil|bobilen|vår|kjæledyr|bestille|overnatting|ankommer|kan jeg|har dere|hytta|ta med|hunden min)\b/g,
@@ -183,6 +183,9 @@ if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
 }
     if (/\b(får jag|ta med min hund|har ni|husbil)\b/.test(text)) {
     scores.sv += 4;
+}
+    if (/\b(vi vil gerne|vores autocamper|har i|må jeg)\b/.test(text)) {
+    scores.da += 4;
 }
     const highest = Math.max(...Object.values(scores));
 
