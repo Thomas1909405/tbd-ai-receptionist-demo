@@ -465,13 +465,11 @@ const fields = {
         f.notice;
 }
   function answer(raw) {
-    alert("TEST: Neue Version von core.js geladen!");
     responseLanguage = bookingRequest
     ? bookingRequest.language
     : detectMessageLanguage(raw);
     // TBD AI Receptionist V0.6 – Änderung der Aufenthaltsdauer
 if (lastBookingRequest && !bookingRequest) {
-  alert("TEST: Änderungsfunktion erreicht!");
   
     const changeMatch = raw.match(
         /\b(\d+)\s*(nächte|nächten)\b/i
@@ -505,7 +503,6 @@ if (lastBookingRequest && !bookingRequest) {
 ) {
     addMessage(createBookingSummary(responseLanguage));
 lastBookingRequest = { ...bookingRequest };
-      alert("TEST: Buchungsanfrage gespeichert!");
 bookingRequest = null;
 return;
 }
