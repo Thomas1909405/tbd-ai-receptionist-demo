@@ -638,7 +638,7 @@ const q = raw.toLocaleLowerCase(localeTag);
         sv: /kontakt|telefon|e-?post|reception/
       },
       prices: {
-        de: /preis|kosten|verfügbar|verfügbarkeit|frei\b/,
+        de: /preis|kosten|verfügbar|verfügbarkeit|frei\b/,        
         da: /pris|koster|tilgængelig|ledig\b|belægning/,
         en: /price|cost|available|availability|vacan|free pitch/,
         no: /pris|koster|tilgjengelig|ledig|belegg/,
