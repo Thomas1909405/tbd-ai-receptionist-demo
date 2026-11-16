@@ -163,13 +163,14 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
     const text = raw.toLowerCase();
 
     const signals = {
-        de: /\b(ich|möchte|können|kann|haben|dürfen|darf|meinen|meine|gibt|welche|wann|anreise|stellplatz|wohnmobil|übernachten)\b|[äüß]/g,
-
+        de: /\b(ich|möchte|möchten|wir|doch|nächte|bleiben|statt|können|kann|haben|dürfen|darf|meinen|meine|gibt|welche|wann|anreise|stellplatz|wohnmobil|übernachten)\b|[äüß]/g,
+      
         da: /\b(jeg|hvad|hvornår|gerne|jeres|vores|vil|må|medbringe|ankomme|ankommer|overnatning|campingplads|autocamper|kan jeg|har i)\b|[æø]/g,
       
         en: /\b(hello|please|would|where|when|booking|pitch|can i|do you|is there|how much|available|arrival|departure|thank you)\b/g,
 
         no: /\b(hei|jeg|vi|hva|hvor|når|gjerne|dere|ønsker|ankomme|morgen|bobil|bobilen|vår|kjæledyr|bestille|overnatting|ankommer|kan jeg|har dere|hytta|ta med|hunden min)\b/g,
+      
         sv: /\b(jag|vad|när|gärna|får|finns|husbil|husvagn|stuga|boende|boka|ankommer|kan jag|har ni|tack)\b|[äö]/g
     };
 
