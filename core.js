@@ -446,7 +446,7 @@ const fields = {
             sv: "Stuga"
         }
     };
-        const r = bookingRequest;
+    const r = bookingRequest || lastBookingRequest;
     const f = fields[language] || fields.de;
     let departure = f.missing;
     const lang = labels[language] ? language : "de";
@@ -469,7 +469,28 @@ const fields = {
     responseLanguage = bookingRequest
     ? bookingRequest.language
     : detectMessageLanguage(raw);
-    
+    // TBD AI Receptionist V0.6 – Änderung der Aufenthaltsdauer
+if (lastBookingRequest && !bookingRequest) {
+    const changeMatch = raw.match(
+        /\b(\d+)\s*(nächte|nächten)\b/i
+    );
+
+    const wantsChange = /\b(doch|statt|ändern|änderung)\b/i.test(raw);
+
+    if (changeMatch && wantsChange) {
+        const newNights = Number(changeMatch[1]);
+
+        if (newNights >= 1 && newNights <= 365) {
+            lastBookingRequest.nights = newNights;
+
+            addMessage(
+                "Gerne! 😊 Ich habe die Aufenthaltsdauer Ihrer unverbindlichen Anfrage aktualisiert.\n\n" +
+                createBookingSummary(responseLanguage)
+            );
+            return;
+        }
+    }
+}
     const bookingInProgress = bookingRequest !== null;
     if (bookingInProgress) saveBookingAccommodation(raw);
     if (
@@ -681,8 +702,9 @@ if (bookingInterest && !bookingInProgress) {
     bookingRequest.accommodation !== null
 ) {
     addMessage(createBookingSummary(responseLanguage));
-    bookingRequest = null;
-    return;
+lastBookingRequest = { ...bookingRequest };
+bookingRequest = null;
+return;
 }
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
