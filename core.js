@@ -743,6 +743,7 @@ if (bookingRequest && bookingRequest.arrival !== null) {
 } else {
     replies.unshift(bookingReplies[responseLanguage]);
 }
+}
     if (bookingInterest && bookingRequest) return addMessage(replies[0]);
     
     if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
