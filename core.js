@@ -748,8 +748,7 @@ if (bookingRequest && bookingRequest.arrival !== null) {
 }
     if (bookingInterest && bookingRequest) return addMessage(replies[0]);
     
-    if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
-    if (replies.length) return addMessage(replies.join("\n\n"));
+if (matches("prices")) replies.push("TEST: Preisfrage erkannt!");    if (replies.length) return addMessage(replies.join("\n\n"));
     
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
 }
