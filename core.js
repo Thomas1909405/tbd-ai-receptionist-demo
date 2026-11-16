@@ -466,6 +466,7 @@ const fields = {
         f.notice;
 }
   function answer(raw) {
+    alert("TEST: Neue Version von core.js geladen!");
     responseLanguage = bookingRequest
     ? bookingRequest.language
     : detectMessageLanguage(raw);
