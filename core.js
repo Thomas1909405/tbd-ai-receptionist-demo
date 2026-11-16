@@ -279,7 +279,10 @@ if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|bobilen|husbil|husbilen)\
         bookingRequest.accommodation = "tent";
         return true;
     }
-
+if (/\b(ferienhaus|ferienwohnung|ferienunterkunft|feriehus|feriebolig|holiday home|holiday house|holiday apartment|hytte|stuga|stuga)\b/i.test(text)) {
+    bookingRequest.accommodation = "holidayhome";
+    return true;
+}
     return false;
 }
   function saveBookingArrival(raw) {
@@ -429,9 +432,16 @@ const fields = {
             de: "Wohnwagen", da: "Campingvogn", en: "Caravan",
             no: "Campingvogn", sv: "Husvagn"
         },
-        tent: {
+                tent: {
             de: "Zelt", da: "Telt", en: "Tent",
             no: "Telt", sv: "Tält"
+        },
+        holidayhome: {
+            de: "Ferienhaus",
+            da: "Feriehus",
+            en: "Holiday home",
+            no: "Feriehus",
+            sv: "Stuga"
         }
     };
         const r = bookingRequest;
@@ -460,7 +470,17 @@ const fields = {
     
     const bookingInProgress = bookingRequest !== null;
     if (bookingInProgress) saveBookingAccommodation(raw);
-    
+    if (
+    bookingInProgress &&
+    bookingRequest.arrival !== null &&
+    bookingRequest.nights !== null &&
+    bookingRequest.adults !== null &&
+    bookingRequest.children !== null &&
+    bookingRequest.accommodation !== null
+) {
+    addMessage(createBookingSummary(responseLanguage));
+    return;
+}
    if (bookingInProgress && bookingRequest.arrival === null) {
     if (saveBookingArrival(raw)) {
         const nextQuestions = {
@@ -495,7 +515,19 @@ const fields = {
         sv: "Tack så mycket! 😊 Jag har noterat antalet gäster."
     };
 
+    const accommodationQuestions = {
+    de: "Vielen Dank! 😊 Welche Unterkunft wünschen Sie – einen Stellplatz für ein Wohnmobil oder einen Wohnwagen, einen Zeltplatz oder eine Ferienunterkunft?",
+    da: "Mange tak! 😊 Hvilken type overnatning ønsker I – en plads til autocamper eller campingvogn, en teltplads eller en feriebolig?",
+    en: "Thank you! 😊 What type of accommodation would you prefer – a motorhome or caravan pitch, a tent pitch, or a holiday home?",
+    no: "Tusen takk! 😊 Hvilken type overnatting ønsker dere – en plass til bobil eller campingvogn, en teltplass eller en feriebolig?",
+    sv: "Tack så mycket! 😊 Vilken typ av boende önskar ni – en plats för husbil eller husvagn, en tältplats eller ett semesterboende?"
+};
+
+if (bookingRequest.accommodation !== null) {
     addMessage(createBookingSummary(responseLanguage));
+} else {
+    addMessage(accommodationQuestions[responseLanguage]);
+}
 return;
 }
 if (bookingInProgress && bookingRequest.nights === null && saveBookingNights(raw)) {
