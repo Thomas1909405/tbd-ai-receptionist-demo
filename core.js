@@ -479,6 +479,7 @@ const fields = {
     bookingRequest.accommodation !== null
 ) {
     addMessage(createBookingSummary(responseLanguage));
+    bookingRequest = null;
     return;
 }
    if (bookingInProgress && bookingRequest.arrival === null) {
