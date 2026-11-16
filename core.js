@@ -551,7 +551,6 @@ return;
 if (bookingRequest.accommodation !== null) {
     addMessage(createBookingSummary(responseLanguage));
     lastBookingRequest = { ...bookingRequest };
-  alert("TEST: Buchungsanfrage gespeichert!");
     bookingRequest = null;
 } else {
     addMessage(accommodationQuestions[responseLanguage]);
@@ -703,10 +702,9 @@ if (bookingInterest && !bookingInProgress) {
     bookingRequest.accommodation !== null
 ) {
     addMessage(createBookingSummary(responseLanguage));
-lastBookingRequest = { ...bookingRequest };
-      alert("TEST: Buchungsanfrage gespeichert!");
-bookingRequest = null;
-return;
+    lastBookingRequest = { ...bookingRequest };
+    bookingRequest = null;
+    return;
 }
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
