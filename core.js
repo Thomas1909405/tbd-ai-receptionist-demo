@@ -291,12 +291,66 @@ if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|bobilen|husbil|husbilen)\
     const todayWords = /\b(heute|today|i dag|idag)\b/i;
 
     const arrivalDate = new Date();
+   const weekdays = {
+    // Deutsch
+    sonntag: 0,
+    montag: 1,
+    dienstag: 2,
+    mittwoch: 3,
+    donnerstag: 4,
+    freitag: 5,
+    samstag: 6,
 
+    // Dänisch und Norwegisch
+    søndag: 0,
+    mandag: 1,
+    tirsdag: 2,
+    onsdag: 3,
+    torsdag: 4,
+    fredag: 5,
+    lørdag: 6,
+
+    // Englisch
+    sunday: 0,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+
+    // Schwedisch
+    söndag: 0,
+    måndag: 1,
+    tisdag: 2,
+    onsdag: 3,
+    torsdag: 4,
+    fredag: 5,
+    lördag: 6
+};
+   const weekdayMatch = text.match(
+    /\b(sonntag|montag|dienstag|mittwoch|donnerstag|freitag|samstag|søndag|mandag|tirsdag|onsdag|torsdag|fredag|lørdag|sunday|monday|tuesday|wednesday|thursday|friday|saturday|söndag|måndag|tisdag|lördag)\b/i
+);
+);
+if (weekdayMatch && (tomorrowWords.test(text) || todayWords.test(text))) {
+    return false;
+}
+if (weekdayMatch) {
+    const targetDay = weekdays[weekdayMatch[1].toLowerCase()];
+    let daysUntil = (targetDay - arrivalDate.getDay() + 7) % 7;
+
+    if (daysUntil === 0) daysUntil = 7;
+
+    arrivalDate.setDate(arrivalDate.getDate() + daysUntil);
+}
+
+   if (!weekdayMatch) {
     if (tomorrowWords.test(text)) {
         arrivalDate.setDate(arrivalDate.getDate() + 1);
     } else if (!todayWords.test(text)) {
         return false;
     }
+}
 
     const year = arrivalDate.getFullYear();
     const month = String(arrivalDate.getMonth() + 1).padStart(2, "0");
@@ -407,8 +461,30 @@ const fields = {
     const bookingInProgress = bookingRequest !== null;
     if (bookingInProgress) saveBookingAccommodation(raw);
     
-    if (bookingInProgress && bookingRequest.arrival === null) {
-    saveBookingArrival(raw);
+   if (bookingInProgress && bookingRequest.arrival === null) {
+    if (saveBookingArrival(raw)) {
+        const nextQuestions = {
+            de: "Vielen Dank! 😊 Wie viele Nächte möchten Sie bleiben?",
+            da: "Mange tak! 😊 Hvor mange nætter ønsker I at blive?",
+            en: "Thank you! 😊 How many nights would you like to stay?",
+            no: "Tusen takk! 😊 Hvor mange netter ønsker dere å bli?",
+            sv: "Tack så mycket! 😊 Hur många nätter vill ni stanna?"
+        };
+
+                       addMessage(nextQuestions[responseLanguage]);
+        return;
+    } else {
+        const arrivalQuestions = {
+            de: "Entschuldigung 😊 An welchem Tag möchten Sie anreisen? Zum Beispiel: morgen oder Freitag.",
+            da: "Undskyld 😊 Hvilken dag ønsker I at ankomme? For eksempel: i morgen eller fredag.",
+            en: "Sorry 😊 Which day would you like to arrive? For example: tomorrow or Friday.",
+            no: "Beklager 😊 Hvilken dag ønsker dere å ankomme? For eksempel: i morgen eller fredag.",
+            sv: "Ursäkta 😊 Vilken dag vill ni anlända? Till exempel: i morgon eller fredag."
+        };
+
+        addMessage(arrivalQuestions[responseLanguage]);
+        return;
+    }
 }
     if (bookingInProgress && bookingRequest.nights !== null && saveBookingGuests(raw)) {
     const confirmations = {
@@ -585,19 +661,30 @@ replies.push(
     }
   if (bookingInterest) {
     const bookingReplies = {
-    de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 In dieser Demo kann ich noch keine Verfügbarkeit prüfen oder Buchungen vornehmen. Wie viele Nächte möchten Sie bleiben?",
+    de: "Schön, dass Sie einen Aufenthalt bei uns planen! 😊 In dieser Demo kann ich keine Verfügbarkeit prüfen oder Buchungen vornehmen. Wann möchten Sie anreisen?",
 
-    da: "Dejligt, at I planlægger et ophold hos os! 😊 I denne demo kan jeg endnu ikke kontrollere ledige pladser eller foretage bookinger. Hvor mange nætter ønsker I at blive?",
+    da: "Dejligt, at I planlægger et ophold hos os! 😊 I denne demo kan jeg ikke kontrollere ledige pladser eller foretage bookinger. Hvornår ønsker I at ankomme?",
 
-    en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings yet. How many nights would you like to stay?",
+    en: "We're happy you're planning a stay with us! 😊 This demo cannot check live availability or make bookings. When would you like to arrive?",
 
-    no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ennå ikke sjekke ledige plasser eller gjennomføre bestillinger. Hvor mange netter ønsker dere å bli?",
+    no: "Så hyggelig at dere planlegger et opphold hos oss! 😊 Denne demoen kan ikke sjekke ledige plasser eller gjennomføre bestillinger. Når ønsker dere å ankomme?",
 
-    sv: "Vad roligt att ni planerar en vistelse hos oss! 😊 Den här demon kan ännu inte kontrollera lediga platser eller genomföra bokningar. Hur många nätter vill ni stanna?"
+    sv: "Vad roligt att ni planerar en vistelse hos oss! 😊 Den här demon kan inte kontrollera lediga platser eller genomföra bokningar. När vill ni anlända?"
 };
 
+if (bookingRequest && bookingRequest.arrival !== null) {
+    const nightsQuestions = {
+        de: "Vielen Dank! 😊 Wie viele Nächte möchten Sie bleiben?",
+        da: "Mange tak! 😊 Hvor mange nætter ønsker I at blive?",
+        en: "Thank you! 😊 How many nights would you like to stay?",
+        no: "Tusen takk! 😊 Hvor mange netter ønsker dere å bli?",
+        sv: "Tack så mycket! 😊 Hur många nätter vill ni stanna?"
+    };
+
+    replies.unshift(nightsQuestions[responseLanguage]);
+} else {
     replies.unshift(bookingReplies[responseLanguage]);
-}
+}}
     if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
     if (replies.length) return addMessage(replies.join("\n\n"));
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
