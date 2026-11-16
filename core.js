@@ -202,6 +202,7 @@ if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
   // TBD AI Receptionist V0.5
 // Speichert die Angaben einer laufenden Buchungsanfrage.
 let bookingRequest = null;
+  let lastBookingRequest = null;
   function startBookingRequest() {
     bookingRequest = {
       language: responseLanguage,
@@ -480,8 +481,9 @@ const fields = {
     bookingRequest.accommodation !== null
 ) {
     addMessage(createBookingSummary(responseLanguage));
-    bookingRequest = null;
-    return;
+lastBookingRequest = { ...bookingRequest };
+bookingRequest = null;
+return;
 }
    if (bookingInProgress && bookingRequest.arrival === null) {
     if (saveBookingArrival(raw)) {
