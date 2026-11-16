@@ -472,8 +472,8 @@ const fields = {
 if (lastBookingRequest && !bookingRequest) {
   
     const changeMatch = raw.match(
-        /\b(\d+)\s*(nächte|nächten)\b/i
-    );
+    /\b(\d+)\s*(nächte|nächten|nætter)\b/i
+);
 
     const wantsChange = /\b(doch|statt|ändern|änderung)\b/i.test(raw);
 
