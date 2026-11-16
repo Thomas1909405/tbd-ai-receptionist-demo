@@ -748,7 +748,7 @@ if (bookingRequest && bookingRequest.arrival !== null) {
 }
     if (bookingInterest && bookingRequest) return addMessage(replies[0]);
     
-if (matches("prices")) replies.push("Erkannte Sprache: " + responseLanguage);
+if (matches("prices")) replies.push(window.TBD_LOCALES[responseLanguage]?.priceAvailability ?? window.TBD_LOCALES.de.priceAvailability);
     if (replies.length) return addMessage(replies.join("\n\n"));
     
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
