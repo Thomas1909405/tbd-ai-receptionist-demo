@@ -676,6 +676,7 @@ if (bookingInterest && !bookingInProgress) {
     bookingRequest.accommodation !== null
 ) {
     addMessage(createBookingSummary(responseLanguage));
+    bookingRequest = null;
     return;
 }
     const requestIntent = matches("request");
