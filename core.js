@@ -19,8 +19,7 @@
     const locale = (typeof navigator !== "undefined" ? navigator.language : "en-US").toLowerCase();
     if (/^de-de(?:-|$)/.test(locale)) return "de";
     if (/^da-dk(?:-|$)/.test(locale)) return "da";
-    if (/^no(?:-|$)|const bookingInterest = matches("bookingInterest");^nb(?:-|$)|^nn(?:-|$)/.test(locale)) return "no";
-    if (/^sv(?:-|$)/.test(locale)) return "sv";
+if (/^no(?:-|$)|^nb(?:-|$)|^nn(?:-|$)/.test(locale)) return "no";    if (/^sv(?:-|$)/.test(locale)) return "sv";
     return "en";
   }
   const requestedLanguage = params.get("lang");
@@ -506,6 +505,7 @@ if (lastBookingRequest && !bookingRequest) {
 ) {
     addMessage(createBookingSummary(responseLanguage));
 lastBookingRequest = { ...bookingRequest };
+      alert("TEST: Buchungsanfrage gespeichert!");
 bookingRequest = null;
 return;
 }
@@ -554,6 +554,7 @@ return;
 if (bookingRequest.accommodation !== null) {
     addMessage(createBookingSummary(responseLanguage));
     lastBookingRequest = { ...bookingRequest };
+  alert("TEST: Buchungsanfrage gespeichert!");
     bookingRequest = null;
 } else {
     addMessage(accommodationQuestions[responseLanguage]);
@@ -706,6 +707,7 @@ if (bookingInterest && !bookingInProgress) {
 ) {
     addMessage(createBookingSummary(responseLanguage));
 lastBookingRequest = { ...bookingRequest };
+      alert("TEST: Buchungsanfrage gespeichert!");
 bookingRequest = null;
 return;
 }
