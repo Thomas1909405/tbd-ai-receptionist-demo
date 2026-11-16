@@ -233,22 +233,33 @@ let bookingRequest = null;
     );
 
     const childrenMatch = raw.match(
-        /\b(\d{1,2})\s*(kinder|kind|børn|children|child|barn)\b/i
+/\b(\d{1,2}|ein|eine|einem|einen|zwei|drei|vier|fünf)\s*(kinder|kind|kindern|børn|children|child|barn)\b/i    
     );
 
-    if (!adultsMatch) return false;
+    if (!adultsMatch && !childrenMatch) return false;
+    
+    const adults = adultsMatch ? Number(adultsMatch[1]) : null;
+const numberWords = {
+    ein: 1,
+    eine: 1,
+    einem: 1,
+    einen: 1,
+    zwei: 2,
+    drei: 3,
+    vier: 4,
+    fünf: 5
+};
 
-    const adults = Number(adultsMatch[1]);
-    const children = childrenMatch ? Number(childrenMatch[1]) : null;
+const children = childrenMatch
+    ? (numberWords[childrenMatch[1].toLowerCase()] ?? Number(childrenMatch[1]))
+    : null;
+    if (adults !== null && (adults < 1 || adults > 20)) return false;
+if (children !== null && (!Number.isInteger(children) || children < 0 || children > 20)) return false;
+    if (adults !== null) bookingRequest.adults = adults;
+    if (children !== null) bookingRequest.children = children;
 
-    if (adults < 1 || adults > 20) return false;
-    if (children !== null && children > 20) return false;
-
-    bookingRequest.adults = adults;
-    bookingRequest.children = children;
-
-    return true;
-}
+  return bookingRequest.adults !== null;
+  }
   function saveBookingAccommodation(raw) {
     if (!bookingRequest) return false;
 
@@ -542,6 +553,7 @@ if (bookingInterest && !bookingInProgress) {
     startBookingRequest();
     saveBookingAccommodation(raw);
     saveBookingArrival(raw);
+  saveBookingGuests(raw);
 }    
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
