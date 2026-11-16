@@ -471,6 +471,8 @@ const fields = {
     : detectMessageLanguage(raw);
     // TBD AI Receptionist V0.6 – Änderung der Aufenthaltsdauer
 if (lastBookingRequest && !bookingRequest) {
+  alert("TEST: Änderungsfunktion erreicht!");
+  
     const changeMatch = raw.match(
         /\b(\d+)\s*(nächte|nächten)\b/i
     );
