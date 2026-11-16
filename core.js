@@ -727,12 +727,27 @@ if (bookingRequest && bookingRequest.arrival !== null) {
         sv: "Tack så mycket! 😊 Hur många nätter vill ni stanna?"
     };
 
+   if (bookingRequest.nights !== null) {
+    const guestsQuestions = {
+        de: "Vielen Dank! 😊 Mit wie vielen Erwachsenen und Kindern reisen Sie an?",
+        da: "Mange tak! 😊 Hvor mange voksne og børn rejser I med?",
+        en: "Thank you! 😊 How many adults and children will be travelling?",
+        no: "Tusen takk! 😊 Hvor mange voksne og barn reiser dere med?",
+        sv: "Tack så mycket! 😊 Hur många vuxna och barn reser ni med?"
+    };
+
+    replies.unshift(guestsQuestions[responseLanguage]);
+} else {
     replies.unshift(nightsQuestions[responseLanguage]);
+}
 } else {
     replies.unshift(bookingReplies[responseLanguage]);
-}}
+}
+    if (bookingInterest && bookingRequest) return addMessage(replies[0]);
+    
     if (matches("prices")) replies.push(tr("priceAvailability", responseLanguage));
     if (replies.length) return addMessage(replies.join("\n\n"));
+    
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
 }
   form.addEventListener("submit", (event) => {
