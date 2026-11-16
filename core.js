@@ -525,8 +525,7 @@ const q = raw.toLocaleLowerCase(localeTag);
         sv: /pris|kostar|tillgänglig|ledig|beläggning/
       },
       bookingInterest: {
-    de: /möchte.{0,150}(anreisen|buchen|reservieren)|möchten.{0,150}(anreisen|buchen|reservieren)|würde.{0,150}buchen/,
-    da: /vil gerne.{0,40}(ankomme|booke|reservere)|ønsker at booke/,
+    de: /möchte.{0,150}(anreisen|buchen|reservieren)|möchten.{0,150}(anreisen|buchen|reservieren)|würde.{0,150}buchen|würden gerne.{0,150}campen/,    da: /vil gerne.{0,40}(ankomme|booke|reservere)|ønsker at booke/,
     en: /would like to.{0,40}(arrive|book|reserve)|want to book/,
     no: /vil gjerne.{0,60}(ankomme|bestille|reservere)|ønsker å.{0,60}(ankomme|bestille|reservere)|ønsker å booke/,    
     sv: /vill gärna.{0,40}(ankomma|boka|reservera)|vill boka/
