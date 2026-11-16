@@ -19,7 +19,7 @@
     const locale = (typeof navigator !== "undefined" ? navigator.language : "en-US").toLowerCase();
     if (/^de-de(?:-|$)/.test(locale)) return "de";
     if (/^da-dk(?:-|$)/.test(locale)) return "da";
-    if (/^no(?:-|$)|^nb(?:-|$)|^nn(?:-|$)/.test(locale)) return "no";
+    if (/^no(?:-|$)|const bookingInterest = matches("bookingInterest");^nb(?:-|$)|^nn(?:-|$)/.test(locale)) return "no";
     if (/^sv(?:-|$)/.test(locale)) return "sv";
     return "en";
   }
@@ -661,8 +661,21 @@ if (bookingInterest && !bookingInProgress) {
     startBookingRequest();
     saveBookingAccommodation(raw);
     saveBookingArrival(raw);
-  saveBookingGuests(raw);
-}    
+    saveBookingNights(raw);
+    saveBookingGuests(raw);
+}
+    if (
+    bookingInterest &&
+    bookingRequest &&
+    bookingRequest.arrival !== null &&
+    bookingRequest.nights !== null &&
+    bookingRequest.adults !== null &&
+    bookingRequest.children !== null &&
+    bookingRequest.accommodation !== null
+) {
+    addMessage(createBookingSummary(responseLanguage));
+    return;
+}
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
