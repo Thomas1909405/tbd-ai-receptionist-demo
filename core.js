@@ -529,6 +529,8 @@ return;
 
 if (bookingRequest.accommodation !== null) {
     addMessage(createBookingSummary(responseLanguage));
+    lastBookingRequest = { ...bookingRequest };
+    bookingRequest = null;
 } else {
     addMessage(accommodationQuestions[responseLanguage]);
 }
