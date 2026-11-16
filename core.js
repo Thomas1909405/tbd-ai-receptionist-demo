@@ -331,7 +331,7 @@ if (/\b(wohnmobil|autocamper|motorhome|campervan|bobil|bobilen|husbil|husbilen)\
    const weekdayMatch = text.match(
     /\b(sonntag|montag|dienstag|mittwoch|donnerstag|freitag|samstag|søndag|mandag|tirsdag|onsdag|torsdag|fredag|lørdag|sunday|monday|tuesday|wednesday|thursday|friday|saturday|söndag|måndag|tisdag|lördag)\b/i
 );
-);
+
 if (weekdayMatch && (tomorrowWords.test(text) || todayWords.test(text))) {
     return false;
 }
