@@ -682,10 +682,10 @@ if (bookingInterest && !bookingInProgress) {
     const requestIntent = matches("request");
     if (!asksAboutWalkIn && requestIntent) { startRequest(); return; }
     const replies = [];
-    if (matches("pitches")) replies.push(fact("pitches", responseLanguage));
+    if (matches("pitches") && !matches("prices")) replies.push(fact("pitches", responseLanguage));
     if (matches("accommodation")) replies.push(fact("accommodation", responseLanguage));
     if (matches("checkin")) replies.push(`${fact("checkin", responseLanguage)} ${fact("checkout", responseLanguage)}`);
-   if (matches("dogs")) replies.push(fact("dogs", responseLanguage));
+    if (matches("dogs")) replies.push(fact("dogs", responseLanguage));
     if (/wi.?fi|internet/.test(q) || (responseLanguage === "de" && /wlan/.test(q))) replies.push(fact("wifi", responseLanguage));
     if (matches("electricity")) replies.push(fact("electricity", responseLanguage));
     if (matches("sanitary")) replies.push(fact("sanitary", responseLanguage));
