@@ -511,13 +511,22 @@ const fields = {
      const t = translations[lang] || translations.de;
      const box = document.createElement("section");
      box.className = "message bot tbd-contact-handoff";
+     box.style.display = "block";
+     box.style.width = "min(100%, 560px)";
+     box.style.maxWidth = "100%";
+     box.style.boxSizing = "border-box";
      const intro = document.createElement("p"); intro.textContent = t.intro; box.appendChild(intro);
      const contact = document.createElement("form"); contact.className = "inline-form";
+     contact.style.display = "grid";
+     contact.style.gap = "10px";
+     contact.style.width = "100%";
      const makeField = (labelText, type, value) => {
        const label = document.createElement("label"); label.textContent = labelText;
+       label.style.display = "grid"; label.style.gap = "5px";
        const field = document.createElement("input"); field.type = type; field.required = true; field.maxLength = type === "email" ? 254 : 120; field.value = value;
        if (type === "email") field.autocomplete = "email";
        if (type === "text") field.autocomplete = "name";
+       field.style.width = "100%"; field.style.boxSizing = "border-box"; field.style.padding = "10px";
        label.appendChild(field); contact.appendChild(label); return field;
      };
      const nameInput = makeField(t.name, "text", contactDraft.name);
@@ -544,7 +553,10 @@ const fields = {
        try { await navigator.clipboard.writeText(body); status.textContent = t.copied; }
        catch (error) { status.textContent = t.failed; const fallback = document.createElement("textarea"); fallback.value = body; fallback.readOnly = true; fallback.rows = 9; fallback.style.width = "100%"; box.appendChild(fallback); fallback.select(); }
      });
-     box.append(contact, notice, status); messages.appendChild(box); messages.scrollTop = messages.scrollHeight;
+     box.append(contact, notice, status);
+     messages.appendChild(box);
+     // Scroll only after the browser has laid out the newly added form.
+     requestAnimationFrame(() => { messages.scrollTop = messages.scrollHeight; });
    }
   function answer(raw) {
     responseLanguage = bookingRequest
