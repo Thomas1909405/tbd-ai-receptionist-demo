@@ -499,23 +499,24 @@ const fields = {
     : detectMessageLanguage(raw);
     // TBD AI Receptionist V0.6 – Änderung der Aufenthaltsdauer
 if (lastBookingRequest && !bookingRequest) {
-  
-    const changeMatch = raw.match(
-    /\b(\d+)\s*(nächte|nächten|nætter)\b/i
-);
-
-    const wantsChange = /\b(doch|statt|ändern|änderung)\b/i.test(raw);
+    // Änderungen der Aufenthaltsdauer in allen fünf Gästesprachen.
+    // Die erste genannte Nächtezahl ist die gewünschte neue Dauer.
+    const changeMatch = raw.match(/\b(\d{1,3})\s*(nächte|nächten|nacht|nætter|nætter|nights?|netter|nätter)\b/i);
+    const wantsChange = /\b(doch|statt|ändern|änderung|lieber|i\s+stedet\s+for|ændre|ændring|hellere|instead\s+of|change|extend|rather|i\s+stedet\s+for|endre|endring|heller|istället\s+för|istället|ändra|ändring|hellre)\b/i.test(raw);
 
     if (changeMatch && wantsChange) {
         const newNights = Number(changeMatch[1]);
-
         if (newNights >= 1 && newNights <= 365) {
             lastBookingRequest.nights = newNights;
-
-            addMessage(
-                "Gerne! 😊 Ich habe die Aufenthaltsdauer Ihrer unverbindlichen Anfrage aktualisiert.\n\n" +
-                createBookingSummary(responseLanguage)
-            );
+            const updateLanguage = lastBookingRequest.language || responseLanguage;
+            const confirmations = {
+                de: "Gerne! 😊 Ich habe die Aufenthaltsdauer Ihrer unverbindlichen Anfrage aktualisiert.",
+                da: "Selvfølgelig! 😊 Jeg har opdateret antallet af nætter i din uforpligtende forespørgsel.",
+                en: "Of course! 😊 I've updated the number of nights in your non-binding enquiry.",
+                no: "Selvfølgelig! 😊 Jeg har oppdatert antall netter i den uforpliktende forespørselen din.",
+                sv: "Självklart! 😊 Jag har uppdaterat antalet nätter i din icke-bindande förfrågan."
+            };
+            addMessage(confirmations[updateLanguage] + "\n\n" + createBookingSummary(updateLanguage));
             return;
         }
     }
