@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ee">
+  <title>TBD Receptionist · Nordsee Camping Resort</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="profile-picker.css">
+  <link rel="stylesheet" href="sales-nav.css">
+  <link rel="stylesheet" href="language-picker.css">
+  <link rel="stylesheet" href="embed.css">
+  <style>
+  body.embed-mode .demo-navigation-link { display: none; }
+</style>
+<script>
+  if (new URLSearchParams(window.location.search).get("embed") === "1") {
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.classList.add("embed-mode");
+    });
+  }
+</script></head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#start" aria-label="TBD AI Solutions Startseite">
+        <span class="brand-mark" aria-hidden="true">tbd<span>·</span></span>
+        <span class="brand-caption">AI SOLUTIONS</span>
+      </a>
+      <div class="topbar-actions"><label class="language-picker-label"><span class="sr-only">Sprache</span><select id="language-picker" aria-label="Sprache auswählen"><option value="de">DE</option><option value="da">DA</option><option value="en">EN</option><option value="no">NO</option><option value="sv">SV</option></select></label><a class="operator-link" id="operator-link" href="angebot.html">Für Campingplätze</a><span class="demo-pill"><i></i> DEMO · V0.1</span>
+      <a href="demo.html" id="camping-demo-link" class="demo-navigation-link" style="color:#285e58; font-weight:bold;">Campingplatz-Demo ansehen →</a></div>
+      </header>
+    
+
+    <section class="hero" id="start" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> <span id="hero-kicker-text">NORDSEE CAMPING RESORT</span> <span class="fiction" id="fiction-label">FIKTIVER BETRIEB</span></p>
+        <h1 id="hero-title">Ein Platz am Meer.<br><em>Ganz in Ruhe.</em></h1>
+        <p class="hero-intro" id="hero-intro">Wind in den Dünen, Weite am Horizont und Zeit für das, was zählt. Willkommen an der Nordsee.</p>
+        <div class="hero-meta" id="hero-meta"><span>⌁</span> Dänische Nordseeküste <b>·</b> Ankommen und durchatmen</div>
+      </div>
+      <div class="hero-art" id="hero-art" role="img" aria-label="Abstrakte Dünenlandschaft in Sand- und Meeresfarben">
+        <div class="sun"></div><div class="bird bird-one">⌁</div><div class="bird bird-two">⌁</div>
+        <div class="sea"></div><div class="dune dune-back"></div><div class="dune dune-front"></div>
+        <span class="art-note">NORDSEE · 55° N</span>
+      </div>
+    </section>
+
+    <section class="chat-section" aria-labelledby="chat-title">
+      <div class="chat-heading"><div><p class="eyebrow" id="chat-kicker">GÄSTESERVICE ZU JEDER TAGESZEIT</p><h2 id="chat-title">Frag uns einfach.</h2></div><span class="open-label"><i></i> <span id="availability-label">24/7-Zielbild</span></span></div>
+      <div class="chat-card">
+        <div class="chat-top"><div class="avatar">N</div><div class="chat-identity"><strong id="reception-label">Deine digitale Rezeption</strong><small id="chat-property-name">Nordsee Camping Resort</small></div><label class="profile-picker-label" for="profile-picker"><span id="profile-label">PROFIL</span><select id="profile-picker" aria-label="Campingplatzprofil auswählen"></select></label></div>
+        <div class="chat-notice" id="chat-notice">Demo-Modus: Der künftige Assistent soll rund um die Uhr erreichbar sein. Diese lokale Demo läuft nur, solange die Seite geöffnet ist. Beispielangaben, keine Live-Verfügbarkeiten und keine echte Buchung.</div>
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
+        <div class="quick-prompts" id="quick-prompts" aria-label="Häufige Fragen">
+          <button type="button" data-question-key="pitches">Stellplätze &amp; Unterkünfte</button>
+          <button type="button" data-question-key="checkin">Check-in &amp; Check-out</button>
+          <button type="button" data-question-key="dogs">Hunde</button>
+          <button type="button" data-question-key="wifi">WLAN</button>
+          <button type="button" data-question-key="electricity">Strom</button>
+          <button type="button" data-question-key="sanitary">Sanitär</button>
+          <button type="button" data-question-key="walkIn">Ohne Buchung anreisen?</button>
+          <button type="button" data-question-key="quietPeriods">Reisezeit ohne Schulferien</button>
+          <button type="button" data-question-key="activities">Aktivitäten &amp; Wassersport</button>
+          <button type="button" data-question-key="request">Aufenthalt anfragen</button>
+        </div>
+        <form class="composer" id="chat-form">
+          <label class="sr-only" id="message-label" for="message-input">Nachricht schreiben</label>
+          <input id="message-input" name="message" placeholder="Schreib deine Nachricht …" autocomplete="off" maxlength="500">
+          <button class="send-button" id="send-button" type="submit" aria-label="Nachricht senden">↑</button>
+        </form>
+        <div class="chat-foot"><span id="chat-foot-left">Sofortige Hilfe · unverbindliche Anfrage</span><span id="chat-foot-right">Demo: keine Datenübertragung</span></div>
+      </div>
+    </section>
+    <footer><span id="footer-left">© TBD AI SOLUTIONS · PROTOTYP</span><span id="footer-right">Mit Ruhe gebaut <b>✳</b></span></footer>
+  </main>
+  <script src="locales.js"></script>
+  <script src="profiles/nordsee-camping-resort.js"></script>
+  <script src="profiles/musterprofil.js"></script>
+  <script src="profiles/ferienhaus-demo.js"></script>
+  <script src="core.js"></script>
+<script>
+  const demoLink = document.getElementById("camping-demo-link");
+  const languageSelect = document.getElementById("language-picker");
+const demoLinkTexts = {
+  de: "Campingplatz-Demo ansehen →",
+  da: "Se campingplads-demo →",
+  en: "View campsite demo →",
+  no: "Se campingplass-demo →",
+  sv: "Se campingplatsdemo →"
+};
+
+function updateDemoLinkText() {
+  if (!demoLink || !languageSelect) return;
+
+  demoLink.textContent =
+    demoLinkTexts[languageSelect.value] || demoLinkTexts.de;
+}
+
+if (languageSelect) {
+  languageSelect.addEventListener("change", updateDemoLinkText);
+  updateDemoLinkText();
+}
+  if (demoLink && languageSelect) {
+    demoLink.addEventListener("click", function () {
+      const selectedLanguage = languageSelect.value;
+      demoLink.href = "demo.html?lang=" + encodeURIComponent(selectedLanguage);
+    });
+  }
+</script></body>
+</html>
