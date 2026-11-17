@@ -905,6 +905,77 @@ return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact
     applyLanguage();
     resetConversation();
   });
+
+  // V0.9 – Betreiber-Interessentenformular, vollständig lokal im Browser.
+  // Vor einem öffentlichen Einsatz die geschäftliche Empfängeradresse konfigurieren.
+  const TBD_BUSINESS_EMAIL = "";
+  const leadText = {
+    de: {cta:"Kostenlose persönliche Demo anfordern",heading:"TBD AI Receptionist für Ihren Betrieb",intro:"Interesse an einem mehrsprachigen digitalen Gästeservice? Bereiten Sie eine unverbindliche Anfrage vor.",name:"Ihr Name",business:"Campingplatz / Betrieb",email:"Geschäftliche E-Mail-Adresse",website:"Website (optional)",features:"Welche Funktionen interessieren Sie?",demo:"Persönliche Demo",faq:"Mehrsprachige Gästefragen",booking:"Buchungsanfragen",phone:"Telefonassistent (Zukunftsoption)",other:"Weitere Wünsche",send:"E-Mail vorbereiten",copy:"Anfrage kopieren",close:"Schließen",notice:"Demo: Keine automatische Übermittlung. Bitte keine echten personenbezogenen Daten eingeben. Eine Empfängeradresse für TBD AI Solutions muss vor dem produktiven Einsatz hinterlegt werden.",copied:"Anfrage kopiert.",error:"Bitte füllen Sie Name, Betrieb und gültige E-Mail-Adresse aus.",subject:"Anfrage: TBD AI Receptionist",recipient:"Bitte tragen Sie die Empfängeradresse von TBD AI Solutions in Ihrem E-Mail-Programm ein."},
+    da: {cta:"Bestil en gratis personlig demo",heading:"TBD AI Receptionist til din virksomhed",intro:"Interesseret i flersproget digital gæsteservice? Forbered en uforpligtende forespørgsel.",name:"Dit navn",business:"Campingplads / virksomhed",email:"Erhvervs-e-mail",website:"Hjemmeside (valgfrit)",features:"Hvilke funktioner interesserer dig?",demo:"Personlig demo",faq:"Flersproget gæsteservice",booking:"Bookingforespørgsler",phone:"Telefonassistent (fremtidig mulighed)",other:"Andre ønsker",send:"Forbered e-mail",copy:"Kopiér forespørgsel",close:"Luk",notice:"Demo: Ingen automatisk afsendelse. Indtast ikke rigtige personoplysninger. En modtageradresse skal konfigureres før offentlig brug.",copied:"Forespørgslen er kopieret.",error:"Udfyld navn, virksomhed og en gyldig e-mailadresse.",subject:"Forespørgsel: TBD AI Receptionist",recipient:"Indtast TBD AI Solutions' modtageradresse i dit e-mailprogram."},
+    en: {cta:"Request a free personal demo",heading:"TBD AI Receptionist for your business",intro:"Interested in multilingual digital guest service? Prepare a no-obligation enquiry.",name:"Your name",business:"Campsite / business",email:"Business email",website:"Website (optional)",features:"Which features interest you?",demo:"Personal demo",faq:"Multilingual guest FAQs",booking:"Booking enquiries",phone:"Phone assistant (future option)",other:"Other requirements",send:"Prepare email",copy:"Copy enquiry",close:"Close",notice:"Demo: No automatic submission. Do not enter real personal details. Configure a recipient address before public use.",copied:"Enquiry copied.",error:"Enter your name, business and a valid email address.",subject:"Enquiry: TBD AI Receptionist",recipient:"Enter TBD AI Solutions' recipient address in your email app."},
+    no: {cta:"Be om en gratis personlig demo",heading:"TBD AI Receptionist for din bedrift",intro:"Interessert i flerspråklig digital gjesteservice? Klargjør en uforpliktende forespørsel.",name:"Navnet ditt",business:"Campingplass / bedrift",email:"E-postadresse for bedriften",website:"Nettsted (valgfritt)",features:"Hvilke funksjoner er interessante?",demo:"Personlig demo",faq:"Flerspråklige gjestespørsmål",booking:"Bestillingsforespørsler",phone:"Telefonassistent (fremtidig mulighet)",other:"Andre ønsker",send:"Klargjør e-post",copy:"Kopier forespørsel",close:"Lukk",notice:"Demo: Ingen automatisk sending. Ikke oppgi ekte personopplysninger. Mottakeradresse må konfigureres før offentlig bruk.",copied:"Forespørselen er kopiert.",error:"Oppgi navn, bedrift og gyldig e-postadresse.",subject:"Forespørsel: TBD AI Receptionist",recipient:"Skriv inn TBD AI Solutions' mottakeradresse i e-postprogrammet."},
+    sv: {cta:"Begär en gratis personlig demo",heading:"TBD AI Receptionist för din verksamhet",intro:"Intresserad av flerspråkig digital gästservice? Förbered en förutsättningslös förfrågan.",name:"Ditt namn",business:"Campingplats / verksamhet",email:"E-postadress till företaget",website:"Webbplats (valfritt)",features:"Vilka funktioner är intressanta?",demo:"Personlig demo",faq:"Flerspråkiga gästfrågor",booking:"Bokningsförfrågningar",phone:"Telefonassistent (framtida möjlighet)",other:"Övriga önskemål",send:"Förbered e-post",copy:"Kopiera förfrågan",close:"Stäng",notice:"Demo: Ingen automatisk överföring. Ange inte riktiga personuppgifter. Mottagaradress måste konfigureras före offentlig användning.",copied:"Förfrågan kopierad.",error:"Ange namn, verksamhet och giltig e-postadress.",subject:"Förfrågan: TBD AI Receptionist",recipient:"Ange TBD AI Solutions mottagaradress i ditt e-postprogram."}
+  };
+  function setupOperatorLeadForm() {
+    const container = document.createElement("section");
+    container.id = "tbd-operator-lead";
+    container.style.cssText = "margin:18px auto;padding:18px;max-width:680px;border:1px solid #cbd5d1;border-radius:14px;background:#f5faf7;color:#173a2c;box-sizing:border-box";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.style.cssText = "width:100%;padding:13px 16px;background:#176c4c;color:white;border:0;border-radius:9px;font-weight:700;cursor:pointer";
+    const panel = document.createElement("div");
+    panel.hidden = true;
+    panel.style.cssText = "padding-top:15px";
+    container.append(toggle,panel);
+    const anchor = document.querySelector("#chat-form");
+    const chatRoot = anchor?.closest(".chat-card") || anchor?.parentElement;
+    if (chatRoot?.parentElement) chatRoot.insertAdjacentElement("afterend",container);
+    else document.body.appendChild(container);
+    function render() {
+      const t = leadText[language] || leadText.de;
+      toggle.textContent = t.cta;
+      panel.replaceChildren();
+      const title=document.createElement("h3"); title.textContent=t.heading;
+      const intro=document.createElement("p"); intro.textContent=t.intro;
+      const lead=document.createElement("form");
+      lead.className="inline-form";
+      lead.style.cssText="display:grid;gap:10px";
+      function field(label,type,required=false) {
+        const wrap=document.createElement("label"); wrap.textContent=label;
+        wrap.style.cssText="display:grid;gap:4px";
+        const input=document.createElement("input"); input.type=type; input.required=required;
+        input.maxLength=type==="email"?254:200;
+        input.style.cssText="padding:9px;border:1px solid #aabbb2;border-radius:6px;width:100%;box-sizing:border-box";
+        wrap.appendChild(input);lead.appendChild(wrap);return input;
+      }
+      const name=field(t.name,"text",true), business=field(t.business,"text",true), email=field(t.email,"email",true), website=field(t.website,"url");
+      const legend=document.createElement("strong");legend.textContent=t.features;lead.appendChild(legend);
+      const checks=[];
+      for(const key of ["demo","faq","booking","phone"]) {
+        const label=document.createElement("label");label.style.cssText="display:flex;align-items:center;gap:8px";
+        const check=document.createElement("input");check.type="checkbox";check.checked=key==="demo";
+        label.append(check,document.createTextNode(t[key]));lead.appendChild(label);checks.push([key,check]);
+      }
+      const other=field(t.other,"text");
+      const actions=document.createElement("div");actions.style.cssText="display:flex;flex-wrap:wrap;gap:8px";
+      const prepare=document.createElement("button");prepare.type="submit";prepare.textContent=t.send;
+      const copy=document.createElement("button");copy.type="button";copy.textContent=t.copy;
+      for(const btn of [prepare,copy])btn.style.cssText="padding:10px 13px;border:1px solid #176c4c;border-radius:8px;cursor:pointer";
+      actions.append(prepare,copy);lead.appendChild(actions);
+      const note=document.createElement("p");note.textContent=t.notice;note.style.fontSize="0.85em";
+      const status=document.createElement("p");status.setAttribute("role","status");
+      const buildBody=()=>[t.heading,`${t.name}: ${name.value.trim()}`,`${t.business}: ${business.value.trim()}`,`${t.email}: ${email.value.trim()}`,`${t.website}: ${website.value.trim()}`,`${t.features}: ${checks.filter(([,check])=>check.checked).map(([key])=>t[key]).join(", ")}`,`${t.other}: ${other.value.trim()}`].join("\n");
+      const valid=()=>{if(!name.value.trim()||!business.value.trim()||!email.checkValidity()||!website.checkValidity()){status.textContent=t.error;lead.reportValidity();return false;}return true;};
+      lead.addEventListener("submit",e=>{e.preventDefault();if(!valid())return;window.location.href="mailto:"+encodeURIComponent(TBD_BUSINESS_EMAIL)+"?subject="+encodeURIComponent(t.subject)+"&body="+encodeURIComponent(buildBody());status.textContent=TBD_BUSINESS_EMAIL?t.notice:t.recipient;});
+      copy.addEventListener("click",async()=>{if(!valid())return;const body=buildBody();try{await navigator.clipboard.writeText(body);status.textContent=t.copied;}catch(e){const area=document.createElement("textarea");area.value=body;area.readOnly=true;area.rows=10;area.style.width="100%";panel.appendChild(area);area.select();status.textContent=t.copied;}});
+      panel.append(title,intro,lead,note,status);
+    }
+    toggle.addEventListener("click",()=>{panel.hidden=!panel.hidden;if(!panel.hidden)render();});
+    languagePicker.addEventListener("change",()=>{render();panel.hidden=true;});
+    render();
+  }
+
   applyLanguage();
   resetConversation();
+  setupOperatorLeadForm();
 })();
