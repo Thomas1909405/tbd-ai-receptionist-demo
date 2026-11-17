@@ -291,6 +291,35 @@ if (/\b(ferienhaus|ferienwohnung|ferienunterkunft|feriehus|feriebolig|holiday ho
 
     const text = raw.toLowerCase();
 
+    // Explicit dates take priority over relative dates and weekdays.
+    // Supports 20.11.2026, 20/11/2026, 2026-11-20 and 20. November 2026.
+    const months = {
+      januar: 1, january: 1, januari: 1,
+      februar: 2, february: 2, februari: 2,
+      märz: 3, maerz: 3, marts: 3, march: 3, mars: 3,
+      april: 4, mai: 5, may: 5, maj: 5,
+      juni: 6, june: 6, july: 7, juli: 7,
+      august: 8, september: 9, oktober: 10, october: 10,
+      november: 11, dezember: 12, december: 12, desember: 12
+    };
+    let parts;
+    const iso = text.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+    const numeric = text.match(/\b(\d{1,2})[./](\d{1,2})[./](\d{4})\b/);
+    const named = text.match(/\b(\d{1,2})\.?\s+(januar|january|januari|februar|february|februari|märz|maerz|marts|march|mars|april|mai|may|maj|juni|june|juli|july|august|september|oktober|october|november|dezember|december|desember)\s+(\d{4})\b/i);
+    if (iso) parts = [Number(iso[1]), Number(iso[2]), Number(iso[3])];
+    else if (numeric) parts = [Number(numeric[3]), Number(numeric[2]), Number(numeric[1])];
+    else if (named) parts = [Number(named[3]), months[named[2].toLowerCase()], Number(named[1])];
+    if (parts) {
+      const [year, month, day] = parts;
+      const date = new Date(Date.UTC(year, month - 1, day));
+      if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return false;
+      const today = new Date();
+      const localToday = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+      if (date < localToday) return false;
+      bookingRequest.arrival = date.toISOString().slice(0, 10);
+      return true;
+    }
+
     const tomorrowWords = /\b(morgen|tomorrow|imorgon|i morgon)\b/i;
     const todayWords = /\b(heute|today|i dag|idag)\b/i;
 
@@ -508,7 +537,14 @@ return;
 }
    if (bookingInProgress && bookingRequest.arrival === null) {
     if (saveBookingArrival(raw)) {
-        const nextQuestions = {
+         if (bookingRequest.nights !== null && bookingRequest.adults !== null &&
+             bookingRequest.children !== null && bookingRequest.accommodation !== null) {
+             addMessage(createBookingSummary(responseLanguage));
+             lastBookingRequest = { ...bookingRequest };
+             bookingRequest = null;
+             return;
+         }
+         const nextQuestions = {
             de: "Vielen Dank! 😊 Wie viele Nächte möchten Sie bleiben?",
             da: "Mange tak! 😊 Hvor mange nætter ønsker I at blive?",
             en: "Thank you! 😊 How many nights would you like to stay?",
@@ -801,3 +837,4 @@ return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact
   applyLanguage();
   resetConversation();
 })();
+
