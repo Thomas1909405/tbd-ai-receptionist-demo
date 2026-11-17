@@ -18,16 +18,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Copy V0.7 into preview folder
+            - name: Copy V0.7 into preview folder
         run: |
           git fetch origin receptionist-v07
           mkdir -p v07-test
-
-          git archive origin/receptionist-v07 \
-  | tar --exclude='.github/*' \
-        --exclude='v07-test/*' \
-        -x -C v07-test
-
+          git archive origin/receptionist-v07 | tar -x -C v07-test
+          rm -rf v07-test/.github
+          rm -rf v07-test/v07-test
           touch v07-test/.nojekyll
 
       - name: Commit preview to main
