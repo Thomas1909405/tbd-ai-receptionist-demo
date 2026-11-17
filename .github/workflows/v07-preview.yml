@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-            - name: Copy V0.7 into preview folder
+      - name: Copy V0.7 into preview folder
         run: |
           git fetch origin receptionist-v07
           mkdir -p v07-test
