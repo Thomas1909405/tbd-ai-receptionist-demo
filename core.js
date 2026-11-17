@@ -110,6 +110,9 @@ const profileName = (item = profile) => profileLocale(item).name || item.name;
   }
   function resetConversation() {
     messages.replaceChildren();
+    bookingRequest = null;
+    lastBookingRequest = null;
+    contactDraft = { name: "", email: "" };
     quick.hidden = false;
     input.value = "";
     chatPropertyName.textContent = profileName();
@@ -202,6 +205,7 @@ if (/\b(ta med|hunden min|har dere|bobil)\b/.test(text)) {
 // Speichert die Angaben einer laufenden Buchungsanfrage.
 let bookingRequest = null;
   let lastBookingRequest = null;
+  let contactDraft = { name: "", email: "" };
   function startBookingRequest() {
     bookingRequest = {
       language: responseLanguage,
@@ -493,6 +497,55 @@ const fields = {
         `${f.accommodation}: ${r.accommodation ? accommodationNames[r.accommodation][lang] : f.missing}\n\n` +
         f.notice;
 }
+   // V0.8: Browser-only handoff. No network requests or automatic email delivery.
+   function renderContactHandoff(lang) {
+     if (!lastBookingRequest) return;
+     messages.querySelectorAll(".tbd-contact-handoff").forEach((node) => node.remove());
+     const translations = {
+       de: { intro: "Möchten Sie diese unverbindliche Anfrage per E-Mail vorbereiten? Geben Sie dazu Ihren Namen und Ihre E-Mail-Adresse ein.", name: "Ihr Name", email: "Ihre E-Mail-Adresse", prepare: "E-Mail vorbereiten", copy: "Anfrage kopieren", notice: "Demo: Empfänger rezeption@example.com ist kein echtes Postfach. Das Öffnen des E-Mail-Programms versendet nichts automatisch. Bitte keine echten personenbezogenen Daten eingeben.", subject: "Unverbindliche Buchungsanfrage", copied: "Anfrage kopiert. Sie können sie selbst in eine Nachricht einfügen.", failed: "Kopieren nicht möglich. Bitte den Text manuell markieren und kopieren.", validation: "Bitte geben Sie einen Namen und eine gültige E-Mail-Adresse ein." },
+       da: { intro: "Vil du forberede en e-mail med din uforpligtende forespørgsel? Indtast navn og e-mailadresse.", name: "Dit navn", email: "Din e-mailadresse", prepare: "Forbered e-mail", copy: "Kopiér forespørgsel", notice: "Demo: rezeption@example.com er ikke en rigtig postkasse. E-mailen sendes ikke automatisk. Indtast ikke rigtige personoplysninger.", subject: "Uforpligtende bookingforespørgsel", copied: "Forespørgslen er kopieret.", failed: "Kunne ikke kopiere. Markér og kopiér teksten manuelt.", validation: "Indtast venligst navn og gyldig e-mailadresse." },
+       en: { intro: "Would you like to prepare an email with your non-binding enquiry? Enter your name and email address.", name: "Your name", email: "Your email address", prepare: "Prepare email", copy: "Copy enquiry", notice: "Demo: rezeption@example.com is not a real inbox. Opening your email app does not send anything. Do not enter real personal details.", subject: "Non-binding booking enquiry", copied: "Enquiry copied.", failed: "Copy failed. Please select and copy the text manually.", validation: "Please enter a name and valid email address." },
+       no: { intro: "Vil du klargjøre en e-post med din uforpliktende forespørsel? Oppgi navn og e-postadresse.", name: "Navnet ditt", email: "E-postadressen din", prepare: "Klargjør e-post", copy: "Kopier forespørsel", notice: "Demo: rezeption@example.com er ikke en ekte innboks. E-posten sendes ikke automatisk. Ikke oppgi ekte personopplysninger.", subject: "Uforpliktende bestillingsforespørsel", copied: "Forespørselen er kopiert.", failed: "Kunne ikke kopiere. Marker og kopier teksten manuelt.", validation: "Oppgi navn og gyldig e-postadresse." },
+       sv: { intro: "Vill du förbereda ett e-postmeddelande med din icke-bindande förfrågan? Ange namn och e-postadress.", name: "Ditt namn", email: "Din e-postadress", prepare: "Förbered e-post", copy: "Kopiera förfrågan", notice: "Demo: rezeption@example.com är ingen riktig inkorg. E-post skickas inte automatiskt. Ange inte riktiga personuppgifter.", subject: "Icke-bindande bokningsförfrågan", copied: "Förfrågan kopierad.", failed: "Kopiering misslyckades. Markera och kopiera texten manuellt.", validation: "Ange namn och giltig e-postadress." }
+     };
+     const t = translations[lang] || translations.de;
+     const box = document.createElement("section");
+     box.className = "message bot tbd-contact-handoff";
+     const intro = document.createElement("p"); intro.textContent = t.intro; box.appendChild(intro);
+     const contact = document.createElement("form"); contact.className = "inline-form";
+     const makeField = (labelText, type, value) => {
+       const label = document.createElement("label"); label.textContent = labelText;
+       const field = document.createElement("input"); field.type = type; field.required = true; field.maxLength = type === "email" ? 254 : 120; field.value = value;
+       if (type === "email") field.autocomplete = "email";
+       if (type === "text") field.autocomplete = "name";
+       label.appendChild(field); contact.appendChild(label); return field;
+     };
+     const nameInput = makeField(t.name, "text", contactDraft.name);
+     const emailInput = makeField(t.email, "email", contactDraft.email);
+     const status = document.createElement("p"); status.setAttribute("role", "status");
+     const notice = document.createElement("p"); notice.textContent = t.notice;
+     const prepare = document.createElement("button"); prepare.type = "submit"; prepare.textContent = t.prepare;
+     const copy = document.createElement("button"); copy.type = "button"; copy.textContent = t.copy;
+     contact.append(prepare, copy);
+     const buildBody = () => createBookingSummary(lang) + "\n\n" + t.name + ": " + nameInput.value.trim() + "\n" + t.email + ": " + emailInput.value.trim();
+     const valid = () => {
+       if (!nameInput.value.trim() || !emailInput.checkValidity()) { status.textContent = t.validation; contact.reportValidity(); return false; }
+       contactDraft = { name: nameInput.value.trim(), email: emailInput.value.trim() }; return true;
+     };
+     contact.addEventListener("submit", (event) => {
+       event.preventDefault(); if (!valid()) return;
+       const uri = "mailto:rezeption@example.com?subject=" + encodeURIComponent(t.subject + " – " + profileName()) + "&body=" + encodeURIComponent(buildBody());
+       window.location.href = uri;
+       status.textContent = t.notice;
+     });
+     copy.addEventListener("click", async () => {
+       if (!valid()) return;
+       const body = buildBody();
+       try { await navigator.clipboard.writeText(body); status.textContent = t.copied; }
+       catch (error) { status.textContent = t.failed; const fallback = document.createElement("textarea"); fallback.value = body; fallback.readOnly = true; fallback.rows = 9; fallback.style.width = "100%"; box.appendChild(fallback); fallback.select(); }
+     });
+     box.append(contact, notice, status); messages.appendChild(box); messages.scrollTop = messages.scrollHeight;
+   }
   function answer(raw) {
     responseLanguage = bookingRequest
     ? bookingRequest.language
@@ -517,6 +570,7 @@ if (lastBookingRequest && !bookingRequest) {
                 sv: "Självklart! 😊 Jag har uppdaterat antalet nätter i din icke-bindande förfrågan."
             };
             addMessage(confirmations[updateLanguage] + "\n\n" + createBookingSummary(updateLanguage));
+             renderContactHandoff(updateLanguage);
             return;
         }
     }
@@ -534,6 +588,7 @@ if (lastBookingRequest && !bookingRequest) {
     addMessage(createBookingSummary(responseLanguage));
 lastBookingRequest = { ...bookingRequest };
 bookingRequest = null;
+     renderContactHandoff(responseLanguage);
 return;
 }
    if (bookingInProgress && bookingRequest.arrival === null) {
@@ -543,6 +598,7 @@ return;
              addMessage(createBookingSummary(responseLanguage));
              lastBookingRequest = { ...bookingRequest };
              bookingRequest = null;
+     renderContactHandoff(responseLanguage);
              return;
          }
          const nextQuestions = {
@@ -589,6 +645,7 @@ if (bookingRequest.accommodation !== null) {
     addMessage(createBookingSummary(responseLanguage));
     lastBookingRequest = { ...bookingRequest };
     bookingRequest = null;
+     renderContactHandoff(responseLanguage);
 } else {
     addMessage(accommodationQuestions[responseLanguage]);
 }
@@ -741,6 +798,7 @@ if (bookingInterest && !bookingInProgress) {
     addMessage(createBookingSummary(responseLanguage));
     lastBookingRequest = { ...bookingRequest };
     bookingRequest = null;
+     renderContactHandoff(responseLanguage);
     return;
 }
     const requestIntent = matches("request");
@@ -838,4 +896,3 @@ return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact
   applyLanguage();
   resetConversation();
 })();
-
