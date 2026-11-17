@@ -966,7 +966,7 @@ return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact
       const status=document.createElement("p");status.setAttribute("role","status");
       const buildBody=()=>[t.heading,`${t.name}: ${name.value.trim()}`,`${t.business}: ${business.value.trim()}`,`${t.email}: ${email.value.trim()}`,`${t.website}: ${website.value.trim()}`,`${t.features}: ${checks.filter(([,check])=>check.checked).map(([key])=>t[key]).join(", ")}`,`${t.other}: ${other.value.trim()}`].join("\n");
       const valid=()=>{if(!name.value.trim()||!business.value.trim()||!email.checkValidity()||!website.checkValidity()){status.textContent=t.error;lead.reportValidity();return false;}return true;};
-      lead.addEventListener("submit",e=>{e.preventDefault();if(!valid())return;window.location.href="mailto:"+encodeURIComponent(TBD_BUSINESS_EMAIL)+"?subject="+encodeURIComponent(t.subject)+"&body="+encodeURIComponent(buildBody());status.textContent=TBD_BUSINESS_EMAIL?t.notice:t.recipient;});
+      lead.addEventListener("submit",e=>{e.preventDefault();if(!valid())return;window.location.href="mailto:"+TBD_BUSINESS_EMAIL+"?subject="+encodeURIComponent(t.subject)+"&body="+encodeURIComponent(buildBody());
       copy.addEventListener("click",async()=>{if(!valid())return;const body=buildBody();try{await navigator.clipboard.writeText(body);status.textContent=t.copied;}catch(e){const area=document.createElement("textarea");area.value=body;area.readOnly=true;area.rows=10;area.style.width="100%";panel.appendChild(area);area.select();status.textContent=t.copied;}});
       panel.append(title,intro,lead,note,status);
     }
