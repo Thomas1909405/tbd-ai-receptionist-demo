@@ -18,4 +18,45 @@ no:{navBenefits:'Fordeler',navDemo:'Prøv demo',navContact:'Kontakt',eyebrow:'Di
 sv:{navBenefits:'Fördelar',navDemo:'Prova demo',navContact:'Kontakt',eyebrow:'Digital gästservice för campingplatser och semesterboenden',hero:'Dina gäster har semester. <em>Vi hjälper till med frågorna.</em>',lead:'En digital receptionist för vanliga gästfrågor – även när receptionen är stängd. Prova vår interaktiva demo på fem språk.',try:'Prova gratis demo →',book:'Boka en personlig demonstration',bubbleQ:'Får jag ta med min hund?',bubbleA:'Ja, hundar är välkomna på vår exempelcamping! 🐾',visualNote:'Exempel på ett gästsamtal',benefitTitle:'Färre rutinfrågor. Snabbare svar.',benefitSub:'Ett enkelt verktyg för frågor som återkommer.',c1h:'Hjälp dygnet runt',c1p:'Gäster kan få svar på vanliga frågor även utanför öppettiderna.',c2h:'Fem språk',c2p:'Gästen skriver på sitt eget språk. Demon känner igen danska, tyska, engelska, norska och svenska.',c3h:'Mer tid för gästerna',c3p:'Färre återkommande frågor kan ge personalen mer tid för personlig service.',demoEyebrow:'SE SJÄLV',demoTitle:'Ställ en fråga till den digitala receptionisten',demoSub:'Prova vår befintliga interaktiva demo.',demoQuestion:'Vad vill du fråga om?',p1:'🐕 Får jag ta med hund?',p2:'🕒 När är incheckning?',p3:'🚐 Kan jag anlända imorgon?',widgetNote:'💬 På en campingplats webbplats kan receptionisten senare visas som en liten chattknapp längst ner till höger. Funktionen är under utveckling.',embedHelp:'Du kan prova receptionisten direkt här. Om den inbäddade vyn inte fungerar på din enhet kan du öppna demon separat.',openDemo:'Öppna interaktiv demo ↗',disclaimer:'Utvecklingsdemo med exempeldata: ingen live-tillgänglighet, inga bindande bokningar och ingen automatisk överföring.',contactEyebrow:'FÖR CAMPINGPLATSER OCH SEMESTERUTHYRARE',contactTitle:'Ska vi visa dig möjligheterna?',contactSub:'Nyfiken på digital gästservice? Kontakta oss för ett förutsättningslöst samtal.',emailUs:'Kontakta oss via e-post',operatorForm:'Öppna intresseformuläret i demon ↗',footer:'Utvecklingsversion · Ingen automatisk bokning'}};
 function setLang(lang){const dict=translations[lang]||translations.da;document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(el=>{const v=dict[el.dataset.i];if(v!==undefined){if(el.dataset.i==='hero')el.innerHTML=v;else el.textContent=v}});document.getElementById('lang').value=lang;try{localStorage.setItem('tbd-v1-lang',lang)}catch(e){}}
 document.getElementById('lang').addEventListener('change',e=>setLang(e.target.value));setLang('da');
+// Presentation-only readability enhancement. The existing v07-test files are untouched.
+(function enhanceEmbeddedDemo(){
+  const frame = document.querySelector('.embedded-demo iframe');
+  if (!frame) return;
+  frame.addEventListener('load', function(){
+    try {
+      // Works only when the embedded demo is served from the same origin.
+      const doc = frame.contentDocument;
+      if (!doc || !doc.head || doc.getElementById('tbd-preview-readable')) return;
+      const style = doc.createElement('style');
+      style.id = 'tbd-preview-readable';
+      style.textContent = `
+        .embed-mode .message { font-size:16px; line-height:1.55; }
+        .embed-mode .quick-prompts button,
+        .embed-mode .choice-button { font-size:14px; line-height:1.35; padding:9px 12px; }
+        .embed-mode .composer input { font-size:16px; }
+        .embed-mode .chat-notice { font-size:13px; line-height:1.5; }
+        .embed-mode .chat-top strong { font-size:15px; }
+        .embed-mode .chat-top small { font-size:13px; }
+        .embed-mode .chat-foot { font-size:12px; }
+        .embed-mode .open-label { font-size:12px; }
+        .embed-mode .eyebrow { font-size:12px; }
+        .embed-mode .demo-pill { font-size:11px; }
+        .embed-mode .inline-form label,
+        .embed-mode .inline-form input,
+        .embed-mode .inline-form select,
+        .embed-mode .inline-form button,
+        .embed-mode .request-summary { font-size:14px; }
+        @media(max-width:380px) {
+          .embed-mode .quick-prompts button { font-size:14px; }
+          .embed-mode .chat-foot { font-size:12px; }
+        }
+      `;
+      doc.head.appendChild(style);
+    } catch (err) {
+      // If embedding origin changes, leave the working demo untouched.
+      console.warn('Preview typography enhancement unavailable:', err);
+    }
+  });
+})();
+
 </script></body></html>
