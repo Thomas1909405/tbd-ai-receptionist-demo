@@ -1,0 +1,12 @@
+{
+  "name": "tbd-ai-receptionist",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automatische FAQ-Tests für TBD AI Receptionist",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0"
+  }
+}
