@@ -79,13 +79,7 @@ cancellation: "Betingelserne for afbestilling og ændring af reservationer er en
         playground: "Information about playgrounds and activities for children has not yet been provided in the demo profile.",
         motorhomeDisposal: "Information about grey-water disposal and toilet waste disposal has not yet been provided in the demo profile.",
         cancellation: "Cancellation and booking modification policies have not yet been provided in the demo profile. Please contact the campsite for further information."
-prices: "Overnight rates and seasonal offers have not yet been provided in the demo profile.",
-laundry: "Information about washing machines and tumble dryers has not yet been provided in the demo profile.",
-shopping: "Information about shopping facilities and fresh bread service has not yet been provided in the demo profile.",
-playground: "Information about playgrounds and activities for children has not yet been provided in the demo profile.",
-motorhomeDisposal: "Information about grey-water disposal and toilet waste disposal has not yet been provided in the demo profile.",
-cancellation: "Cancellation and booking modification policies have not yet been provided in the demo profile. Please contact the campsite for further information."
-      },
+                },
       fallbackReply: "I can’t answer that reliably from the information provided. Please ask a member of staff on site; I don’t want to guess. This demo cannot contact them automatically.",
       unconfiguredReply: "This information has not been added to the demo profile yet.",
       contactMissing: "The demo profile has no contact details. If you are already on site, please ask a member of staff. This demo cannot notify anyone automatically.",
