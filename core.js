@@ -713,8 +713,7 @@ const q = raw.toLocaleLowerCase(localeTag);
         sv: /boende|semesterhus|semesterlägenhet|stuga|lägenhet/
       },
             lateArrival: {
-        de: /spät.{0,40}(anreisen|ankommen|check.?in)|nach.{0,40}(rezeptionsschluss|öffnungszeiten).{0,40}(anreisen|ankommen)|anreise.{0,40}(spät|abends|nachts)/,
-        da: /sen.{0,40}ankomst|ankomme.{0,40}(sent|om aftenen|om natten)|ankomst.{0,40}(sent|aften|nat)|uden for.{0,40}receptionens åbningstid/,
+        de: /spätanreise|spät.{0,40}(anreisen|ankommen|check.?in)|nach.{0,40}(rezeptionsschluss|öffnungszeiten).{0,40}(anreisen|ankommen)|anreise.{0,40}(spät|abends|nachts)/,        da: /sen.{0,40}ankomst|ankomme.{0,40}(sent|om aftenen|om natten)|ankomst.{0,40}(sent|aften|nat)|uden for.{0,40}receptionens åbningstid/,
         en: /late.{0,40}(arrival|check.?in)|arriv.{0,40}(late|at night|after hours)|outside.{0,40}reception.{0,40}hours/,
         no: /sen.{0,40}ankomst|ankomme.{0,40}(sent|om kvelden|om natten)|ankomst.{0,40}(sent|kveld|natt)|utenfor.{0,40}resepsjonens åpningstid/,
         sv: /sen.{0,40}ankomst|ankomma.{0,40}(sent|på kvällen|på natten)|ankomst.{0,40}(sent|kväll|natt)|utanför.{0,40}receptionens öppettider/
