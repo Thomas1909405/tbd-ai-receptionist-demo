@@ -1,0 +1,1 @@
+.topbar-actions{display:flex;align-items:center;gap:18px}.operator-link{font-size:10px;color:#56716a;text-decoration:none}.operator-link:hover{color:#203b3c;text-decoration:underline}@media(max-width:380px){.topbar-actions{gap:8px}.operator-link{font-size:9px}.demo-pill{padding:7px 9px;font-size:8px}}
