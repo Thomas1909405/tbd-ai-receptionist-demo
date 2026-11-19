@@ -884,8 +884,6 @@ if (matches("sanitary") && !matches("motorhomeDisposal")) {
 }
 if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
 if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
-}    if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
-    if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
     if (matches("activities")) replies.push(fact("activities", responseLanguage));
     if (matches("cancellation")) replies.push(fact("cancellation", responseLanguage));
     if (matches("motorhomeDisposal")) replies.push(fact("motorhomeDisposal", responseLanguage));
