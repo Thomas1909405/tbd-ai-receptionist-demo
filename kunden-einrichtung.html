@@ -14,7 +14,43 @@ function getData(){document.querySelectorAll('[data-field]').forEach(e=>state[e.
 function page(){if(step===0)return `<div class="grid">${fields.filter(f=>f.step===0).map(field).join('')}</div>`+group('businessType',T(11),[[12,T(12)],[13,T(13)],[14,T(14)],[15,T(15)]]);
 if(step===1)return `<div class="grid">${fields.filter(f=>f.step===1).slice(0,3).map(field).join('')}</div>`+group('dogs',T(19),[['yes',T(20)],['no',T(21)],['limited',T(22)]])+field(fields.find(f=>f.id==='dogInfo'))+group('facilities',T(24),[25,26,27,28,29,30,31].map(i=>[String(i),T(i)]),true)+fields.filter(f=>['otherFacilities','rules'].includes(f.id)).map(field).join('')+`<fieldset><legend>${esc(T(34))}</legend>${[0,1,2].map(n=>`<div class="grid"><label class="field">${esc(T(35))} ${n+1}<input data-field="faqQ${n}" value="${esc(state['faqQ'+n]||'')}"></label><label class="field">${esc(T(36))}<textarea data-field="faqA${n}">${esc(state['faqA'+n]||'')}</textarea></label></div>`).join('')}</fieldset>`;
 if(step===2)return group('languages',T(37),[['de','Deutsch'],['da','Dansk'],['en','English'],['no','Norsk'],['sv','Svenska']],true)+group('booking',T(38),[['web',T(39)],['external',T(40)],['email',T(41)],['phone',T(42)]],true)+fields.filter(f=>['bookingSystem','bookingEmail'].includes(f.id)).map(field).join('')+group('bookingInterest',T(45),[['yes',T(46)],['later',T(47)],['no',T(21)]])+group('priceInterest',T(48),[['yes',T(20)],['later',T(47)],['no',T(21)]])+group('priceList',T(49),[['web',T(50)],['pdf',T(51)],['none',T(52)]])+group('platform',T(53),[['wordpress',T(54)],['wix',T(55)],['custom',T(56)],['unknown',T(57)]])+group('webmanager',T(58),[['internal',T(59)],['agency',T(60)],['external',T(61)]])+fields.filter(f=>['websiteContact','wishes'].includes(f.id)).map(field).join('')+`<p class="hint">${esc(T(72))}</p>`;
-return `<div class="summary">${Object.entries(state).filter(([k,v])=>v!==''&&v!=null&&(!Array.isArray(v)||v.length)).map(([k,v])=>`<div><b>${esc(k)}</b>${esc(Array.isArray(v)?v.join(', '):v)}</div>`).join('')||esc(T(71))}</div>`+group('followup',T(66),[['consult',T(64)],['info',T(65)]],true)+`<p class="hint">${esc(T(73))}</p>`}
+return `<div class="summary">${Object.entries(state)
+.filter(([k,v])=>v!==''&&v!=null&&(!Array.isArray(v)||v.length))
+.map(([k,v])=>{
+const labels={
+campground:6,website:7,contact:8,email:9,phone:10,
+businessType:11,hours:16,checkin:17,checkout:18,
+dogs:19,dogInfo:23,facilities:24,otherFacilities:32,
+rules:33,languages:37,booking:38,bookingSystem:43,
+bookingEmail:44,bookingInterest:45,priceInterest:48,
+priceList:49,platform:53,webmanager:58,
+websiteContact:62,wishes:63
+};
+
+const choices={
+businessType:{12:12,13:13,14:14,15:15},
+dogs:{yes:20,no:21,limited:22},
+facilities:{25:25,26:26,27:27,28:28,29:29,30:30,31:31},
+booking:{web:39,external:40,email:41,phone:42},
+bookingInterest:{yes:46,later:47,no:21},
+priceInterest:{yes:20,later:47,no:21},
+priceList:{web:50,pdf:51,none:52},
+platform:{wordpress:54,wix:55,custom:56,unknown:57},
+webmanager:{internal:59,agency:60,external:61}
+};
+
+const label=labels[k]!==undefined?T(labels[k]):k;
+const values=Array.isArray(v)?v:[v];
+const display=values.map(x=>{
+if(choices[k]?.[x]!==undefined)return T(choices[k][x]);
+return String(x);
+}).join(', ');
+
+return `<div><b>${esc(label)}</b>${esc(display)}</div>`;
+}).join('')||esc(T(71))}</div>`+
+group('followup',T(66),[['consult',T(64)],['info',T(65)]],true)+
+`<p class="hint">${esc(T(73))}</p>`;
+}
 function render(){document.documentElement.lang=lang;$('#heading').textContent={de:'Kunden-Einrichtungsformular',da:'Kundeoprettelsesformular',en:'Customer setup form',no:'Kundeoppsett',sv:'Kundinställningsformulär'}[lang];$('#sub').textContent={de:'Gastfreundschaft kennt keine Öffnungszeiten. Teilen Sie uns Ihre bestätigten Informationen mit.',da:'Gæstfrihed har ingen åbningstider. Del jeres bekræftede oplysninger med os.',en:'Hospitality has no opening hours. Share your confirmed business information.',no:'Gjestfrihet har ingen åpningstider. Del bekreftet informasjon med oss.',sv:'Gästfrihet har inga öppettider. Dela era bekräftade uppgifter med oss.'}[lang];$('#warning').textContent=T(68);$('#progress').innerHTML=[0,1,2,3].map(n=>`<span class="${n<=step?'active':''}"></span>`).join('');$('#stepinfo').textContent=T(70).replace('{n}',step+1);$('#steptitle').textContent=T(step);$('#content').innerHTML=page();$('#back').textContent=T(5);$('#back').classList.toggle('hide',step===0);$('#next').textContent=step===3?T(67):T(4);$('#next').disabled=step===3;}
 $('#lang').addEventListener('change',e=>{getData();lang=e.target.value;render()});$('#back').addEventListener('click',()=>{getData();step=Math.max(0,step-1);render();window.scrollTo(0,0)});$('#next').addEventListener('click',()=>{getData();if(step===0){let missing=fields.filter(f=>f.step===0&&f.required).some(f=>!String(state[f.id]||'').trim());let e=String(state.email||'');if(missing||!/^\S+@\S+\.\S+$/.test(e)){alert(T(69));return}}step=Math.min(3,step+1);render();window.scrollTo(0,0)});render();
 </script></body></html>
