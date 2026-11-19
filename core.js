@@ -702,7 +702,7 @@ const q = raw.toLocaleLowerCase(localeTag);
         de: /stellplatz|wohnmobil|wohnwagen|zelt/,
         da: /\b(plads|pladser|autocamper|campingvogn|telt)\b/,
         en: /pitch|motorhome|campervan|caravan|tent/,
-        no: /campingplass|bobil|campingvogn|telt/,
+        no: /bobil|campingvogn|telt|campingplasser/,
         sv: /husbil|husvagn|tält|campingplatser/      },
       accommodation: {
         de: /unterkunft|ferienhaus|ferienwohnung|hütte/,
