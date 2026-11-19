@@ -16,7 +16,15 @@ window.TBD_PROFILES.push({
     walkIn: "Im Demo-Profil ist nicht bestätigt, ob eine Anreise ohne Buchung möglich ist. Es gibt keine Live-Auslastung, daher kann ich keinen freien Platz zusagen. Bitte vor der Anreise direkt beim Betrieb nachfragen.",
     quietPeriods: "Konkrete ruhige Zeiträume und Öffnungszeiten sind im Demo-Profil nicht hinterlegt. Außerhalb der Schulferien ist es häufig ruhiger; die Ferienzeiten unterscheiden sich je nach Herkunftsregion. Für eine verlässliche Empfehlung müssten die Region und die aktuellen Saisonzeiten bekannt sein.",
     activities: "Im Demo-Profil sind keine besonderen Aktivitäten oder Animationsangebote bestätigt. Das Programm ist noch nicht hinterlegt.",
-    waterSports: "Im Demo-Profil sind keine Wassersportangebote oder örtlichen Bedingungen bestätigt. Bitte prüfe vor einer Planung die lokalen Informationen zu Angeboten, Zugang und Sicherheit."
+    waterSports: "Im Demo-Profil sind keine Wassersportangebote oder örtlichen Bedingungen bestätigt. Bitte prüfe vor einer Planung die lokalen Informationen zu Angeboten, Zugang und Sicherheit.",
+    receptionHours: "Die Öffnungszeiten der Rezeption sind im Demo-Profil noch nicht hinterlegt.",
+lateArrival: "Eine Anreise außerhalb der Rezeptionszeiten ist im Demo-Profil noch nicht bestätigt. Bitte kläre dies vor der Anreise direkt mit dem Campingplatz.",
+prices: "Konkrete Übernachtungspreise und Saisonangebote sind im Demo-Profil noch nicht hinterlegt.",
+laundry: "Informationen zu Waschmaschinen und Trocknern sind im Demo-Profil noch nicht hinterlegt.",
+shopping: "Informationen zu Einkaufsmöglichkeiten und Brötchenservice sind im Demo-Profil noch nicht hinterlegt.",
+playground: "Informationen zu Spielplätzen und Kinderangeboten sind im Demo-Profil noch nicht hinterlegt.",
+motorhomeDisposal: "Informationen zur Entsorgung von Grau- und Schwarzwasser sind im Demo-Profil noch nicht hinterlegt.",
+cancellation: "Die Stornierungs- und Umbuchungsbedingungen sind im Demo-Profil noch nicht hinterlegt. Bitte frage direkt beim Campingplatz nach."
   },
   locales: {
     da: {
@@ -33,7 +41,15 @@ window.TBD_PROFILES.push({
         walkIn: "Demoprofilen bekræfter ikke, om det er muligt at ankomme uden booking. Der er ingen live-oplysninger om belægningen, så jeg kan ikke love, at der er en ledig plads.",
         quietPeriods: "Demoprofilen indeholder ingen bekræftede oplysninger om rolige perioder eller åbningstider. Der er ofte færre gæster uden for skoleferierne, men ferieperioderne varierer efter region. En konkret anbefaling kræver oplysninger om region og sæson.",
         activities: "Demoprofilen bekræfter ingen særlige aktiviteter eller underholdning. Programmet er endnu ikke angivet.",
-        waterSports: "Demoprofilen bekræfter ingen vandsportstilbud eller lokale forhold. Tjek lokale oplysninger om tilbud, adgang og sikkerhed, før du planlægger."
+        waterSports: "Demoprofilen bekræfter ingen vandsportstilbud eller lokale forhold. Tjek lokale oplysninger om tilbud, adgang og sikkerhed, før du planlægger.",
+        receptionHours: "Receptionens åbningstider er endnu ikke angivet i demoprofilen.",
+lateArrival: "Det er endnu ikke bekræftet, om ankomst uden for receptionens åbningstid er mulig. Kontakt venligst campingpladsen inden ankomst.",
+prices: "Priser for overnatning og sæsontilbud er endnu ikke angivet i demoprofilen.",
+laundry: "Oplysninger om vaskemaskiner og tørretumblere er endnu ikke angivet i demoprofilen.",
+shopping: "Oplysninger om indkøbsmuligheder og morgenbrødsservice er endnu ikke angivet i demoprofilen.",
+playground: "Oplysninger om legepladser og aktiviteter for børn er endnu ikke angivet i demoprofilen.",
+motorhomeDisposal: "Oplysninger om tømning af gråt spildevand og toilettanke er endnu ikke angivet i demoprofilen.",
+cancellation: "Betingelserne for afbestilling og ændring af reservationer er endnu ikke angivet i demoprofilen. Kontakt venligst campingpladsen for yderligere oplysninger."
       },
       fallbackReply: "Det kan jeg ikke svare sikkert på ud fra de oplysninger, der er lagt ind. Spørg gerne en medarbejder på pladsen; jeg vil ikke gætte. Denne demo kan ikke kontakte medarbejderen automatisk.",
       unconfiguredReply: "Denne oplysning er endnu ikke lagt ind i demoprofilen.",
@@ -54,7 +70,21 @@ window.TBD_PROFILES.push({
         walkIn: "The demo profile does not confirm whether arrivals without a booking are accepted. There is no live occupancy information, so I can’t promise that a pitch is available.",
         quietPeriods: "The demo profile has no confirmed quiet periods or opening dates. It is often quieter outside school holidays, but school calendars vary by region. A specific recommendation would require the region and current season dates.",
         activities: "The demo profile has no confirmed activities or entertainment programme yet.",
-        waterSports: "The demo profile has no confirmed water-sports offers or local conditions. Check local information about activities, access and safety before planning."
+        waterSports: "The demo profile has no confirmed water-sports offers or local conditions. Check local information about activities, access and safety before planning.",
+        receptionHours: "Reception opening hours have not yet been provided in the demo profile.",
+        lateArrival: "It has not yet been confirmed whether arrival outside reception opening hours is possible. Please contact the campsite before arrival.",
+                prices: "Overnight rates and seasonal offers have not yet been provided in the demo profile.",
+        laundry: "Information about washing machines and tumble dryers has not yet been provided in the demo profile.",
+        shopping: "Information about shopping facilities and fresh bread service has not yet been provided in the demo profile.",
+        playground: "Information about playgrounds and activities for children has not yet been provided in the demo profile.",
+        motorhomeDisposal: "Information about grey-water disposal and toilet waste disposal has not yet been provided in the demo profile.",
+        cancellation: "Cancellation and booking modification policies have not yet been provided in the demo profile. Please contact the campsite for further information."
+prices: "Overnight rates and seasonal offers have not yet been provided in the demo profile.",
+laundry: "Information about washing machines and tumble dryers has not yet been provided in the demo profile.",
+shopping: "Information about shopping facilities and fresh bread service has not yet been provided in the demo profile.",
+playground: "Information about playgrounds and activities for children has not yet been provided in the demo profile.",
+motorhomeDisposal: "Information about grey-water disposal and toilet waste disposal has not yet been provided in the demo profile.",
+cancellation: "Cancellation and booking modification policies have not yet been provided in the demo profile. Please contact the campsite for further information."
       },
       fallbackReply: "I can’t answer that reliably from the information provided. Please ask a member of staff on site; I don’t want to guess. This demo cannot contact them automatically.",
       unconfiguredReply: "This information has not been added to the demo profile yet.",
@@ -75,7 +105,15 @@ window.TBD_PROFILES.push({
         walkIn: "Demoprofilen bekrefter ikke om det er mulig å komme uten bestilling. Det finnes ingen live-informasjon om belegget, så jeg kan ikke love at en plass er ledig.",
         quietPeriods: "Demoprofilen har ingen bekreftede opplysninger om rolige perioder eller åpningstider. Det er ofte roligere utenom skoleferiene, men ferieperiodene varierer etter region.",
         activities: "Demoprofilen bekrefter ingen aktiviteter eller underholdning ennå.",
-        waterSports: "Demoprofilen bekrefter ingen tilbud om vannsport eller lokale forhold. Sjekk lokale opplysninger om tilbud, tilgang og sikkerhet før du planlegger."
+        waterSports: "Demoprofilen bekrefter ingen tilbud om vannsport eller lokale forhold. Sjekk lokale opplysninger om tilbud, tilgang og sikkerhet før du planlegger.",
+                receptionHours: "Resepsjonens åpningstider er ennå ikke oppgitt i demoprofilen.",
+        lateArrival: "Det er ennå ikke bekreftet om ankomst utenfor resepsjonens åpningstider er mulig. Kontakt campingplassen før ankomst.",
+        prices: "Priser for overnatting og sesongtilbud er ennå ikke oppgitt i demoprofilen.",
+        laundry: "Informasjon om vaskemaskiner og tørketromler er ennå ikke oppgitt i demoprofilen.",
+        shopping: "Informasjon om butikker og tilbud om ferske rundstykker er ennå ikke oppgitt i demoprofilen.",
+        playground: "Informasjon om lekeplasser og aktiviteter for barn er ennå ikke oppgitt i demoprofilen.",
+        motorhomeDisposal: "Informasjon om tømming av gråvann og toalettanker er ennå ikke oppgitt i demoprofilen.",
+        cancellation: "Vilkår for avbestilling og endring av reservasjoner er ennå ikke oppgitt i demoprofilen. Kontakt campingplassen for mer informasjon."
       },
       fallbackReply: "Jeg kan ikke svare sikkert ut fra opplysningene som er lagt inn. Spør gjerne en medarbeider på plassen; jeg vil ikke gjette. Denne demoen kan ikke kontakte medarbeideren automatisk.",
       unconfiguredReply: "Denne opplysningen er ikke lagt inn i demoprofilen ennå.",
@@ -96,7 +134,15 @@ window.TBD_PROFILES.push({
         walkIn: "Demoprofilen bekräftar inte om det går att anlända utan bokning. Det finns inga liveuppgifter om beläggningen, så jag kan inte lova att en plats är ledig.",
         quietPeriods: "Demoprofilen har inga bekräftade uppgifter om lugna perioder eller öppettider. Det är ofta lugnare utanför skolloven, men loven varierar mellan regioner.",
         activities: "Demoprofilen bekräftar ännu inga aktiviteter eller underhållning.",
-        waterSports: "Demoprofilen bekräftar inga vattensporter eller lokala förhållanden. Kontrollera lokala uppgifter om utbud, tillträde och säkerhet innan du planerar."
+        waterSports: "Demoprofilen bekräftar inga vattensporter eller lokala förhållanden. Kontrollera lokala uppgifter om utbud, tillträde och säkerhet innan du planerar.",
+                receptionHours: "Receptionens öppettider har ännu inte angetts i demoprofilen.",
+        lateArrival: "Det är ännu inte bekräftat om ankomst utanför receptionens öppettider är möjlig. Kontakta campingplatsen före ankomst.",
+        prices: "Priser för övernattning och säsongserbjudanden har ännu inte angetts i demoprofilen.",
+        laundry: "Information om tvättmaskiner och torktumlare har ännu inte angetts i demoprofilen.",
+        shopping: "Information om shoppingmöjligheter och brödservice har ännu inte angetts i demoprofilen.",
+        playground: "Information om lekplatser och aktiviteter för barn har ännu inte angetts i demoprofilen.",
+        motorhomeDisposal: "Information om tömning av gråvatten och toalettankar har ännu inte angetts i demoprofilen.",
+        cancellation: "Villkor för avbokning och ändring av bokningar har ännu inte angetts i demoprofilen. Kontakta campingplatsen för mer information."
       },
       fallbackReply: "Jag kan inte svara säkert utifrån uppgifterna som finns. Fråga gärna en medarbetare på platsen; jag vill inte gissa. Den här demon kan inte kontakta medarbetaren automatiskt.",
       unconfiguredReply: "Den här uppgiften finns ännu inte i demoprofilen.",
