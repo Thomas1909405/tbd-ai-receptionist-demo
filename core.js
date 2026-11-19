@@ -713,6 +713,13 @@ const q = raw.toLocaleLowerCase(localeTag);
         no: /overnatting|feriehus|ferieleilighet|hytte|leilighet/,
         sv: /boende|semesterhus|semesterlägenhet|stuga|lägenhet/
       },
+            lateArrival: {
+        de: /spät.{0,40}(anreisen|ankommen|check.?in)|nach.{0,40}(rezeptionsschluss|öffnungszeiten).{0,40}(anreisen|ankommen)|anreise.{0,40}(spät|abends|nachts)/,
+        da: /sen.{0,40}ankomst|ankomme.{0,40}(sent|om aftenen|om natten)|ankomst.{0,40}(sent|aften|nat)|uden for.{0,40}receptionens åbningstid/,
+        en: /late.{0,40}(arrival|check.?in)|arriv.{0,40}(late|at night|after hours)|outside.{0,40}reception.{0,40}hours/,
+        no: /sen.{0,40}ankomst|ankomme.{0,40}(sent|om kvelden|om natten)|ankomst.{0,40}(sent|kveld|natt)|utenfor.{0,40}resepsjonens åpningstid/,
+        sv: /sen.{0,40}ankomst|ankomma.{0,40}(sent|på kvällen|på natten)|ankomst.{0,40}(sent|kväll|natt)|utanför.{0,40}receptionens öppettider/
+      },
       checkin: {
         de: /check.?in|anreise|ankunft|check.?out|abreise/,
         da: /check.?in|ankomst|ankommer|check.?out|afrejse/,
@@ -755,12 +762,54 @@ const q = raw.toLocaleLowerCase(localeTag);
         no: /aktivitet|program|underholdning|fritid/,
         sv: /aktivitet|program|underhållning|fritid/
       },
+            cancellation: {
+        de: /stornier|storno|umbuch|buchung ändern|reservierung ändern|rücktritt/,
+        da: /afbestil|annuller|ændre.{0,30}(booking|reservation)|ombook/,
+        en: /cancel|cancellation|change.{0,30}(booking|reservation)|modify.{0,30}(booking|reservation)/,
+        no: /avbestill|kanseller|endre.{0,30}(bestilling|reservasjon)|ombook/,
+        sv: /avbok|avbeställ|ändra.{0,30}(bokning|reservation)|ombok/
+      },
+            motorhomeDisposal: {
+        de: /grauwasser|schwarzwasser|toilettenkassette|chemietoilette|entsorgungsstation|wohnmobil.{0,30}entsorg/,
+        da: /gråvand|spildevand|toilettank|kemisk toilet|tømmestation|tømme.{0,30}autocamper/,
+        en: /grey.?water|gray.?water|black.?water|chemical toilet|toilet cassette|waste disposal|empty.{0,30}toilet/,
+        no: /gråvann|spillvann|toalettank|kjemisk toalett|tømmestasjon|tømme.{0,30}bobil/,
+        sv: /gråvatten|svartvatten|toalettank|kemisk toalett|tömningsstation|tömma.{0,30}husbil/
+      },
+            playground: {
+        de: /spielplatz|kinderspielplatz|kinderprogramm|kinderaktivitäten|spielmöglichkeiten/,
+        da: /legeplads|børneaktiviteter|børneprogram|legemuligheder/,
+        en: /playground|children.s activities|kids. activities|kids. club|play area/,
+        no: /lekeplass|barneaktiviteter|barneprogram|lekemuligheter/,
+        sv: /lekplats|barnaktiviteter|barnprogram|lekmöjligheter/
+      },
+            shopping: {
+        de: /brötchen|brötchenservice|brotservice|supermarkt|einkaufen|kiosk|campingladen/,
+        da: /morgenbrød|brødservice|supermarked|indkøb|kiosk|campingbutik/,
+        en: /fresh bread|bread service|supermarket|grocery|shop|camping store/,
+        no: /ferske rundstykker|brødservice|supermarked|butikk|kiosk|handle mat/,
+        sv: /färskt bröd|brödservice|mataffär|livsmedelsbutik|kiosk|handla mat/
+      },
+            laundry: {
+        de: /waschmaschine|wäsche waschen|wäschetrockner|trockner|waschraum/,
+        da: /vaskemaskine|vaske tøj|tørretumbler|vaskeri/,
+        en: /washing machine|laundry|tumble dryer|clothes dryer/,
+        no: /vaskemaskin|vaske klær|tørketrommel|vaskeri/,
+        sv: /tvättmaskin|tvätta kläder|torktumlare|tvättstuga/
+      },
       waterSports: {
         de: /wassersport|surfen|kiten|paddel|kajak|baden|schwimmen/,
         da: /vandsport|surf|kite|paddle|kajak|badning|svøm/,
         en: /water sport|watersport|surf|kite|paddl|kayak|swim|bathing/,
         no: /vannsport|surf|kite|padling|kajakk|bading|svøm/,
         sv: /vattensport|surf|kite|paddling|kajak|bad|simning/
+      },
+            receptionHours: {
+        de: /öffnungszeiten.{0,40}rezeption|rezeption.{0,40}(geöffnet|offen|öffnet|schließt)|wann.{0,30}rezeption.{0,30}(offen|auf)/,
+        da: /receptionens åbningstid|hvornår.{0,30}receptionen.{0,30}(åben|åbner|lukker)|åbningstider.{0,30}reception/,
+        en: /reception opening hours|when.{0,30}reception.{0,30}(open|close)|what time.{0,30}reception/,
+        no: /resepsjonens åpningstid|når.{0,30}resepsjonen.{0,30}(åpen|åpner|stenger)|åpningstider.{0,30}resepsjon/,
+        sv: /receptionens öppettider|när.{0,30}receptionen.{0,30}(öppen|öppnar|stänger)|öppettider.{0,30}reception/
       },
       contact: {
         de: /kontakt|telefon|e-?mail|erreichen|rezeption/,
@@ -769,12 +818,19 @@ const q = raw.toLocaleLowerCase(localeTag);
         no: /kontakt|telefon|e-?post|resepsjon/,
         sv: /kontakt|telefon|e-?post|reception/
       },
-      prices: {
-        de: /preis|kost(?:en|et|e|est)|verfügbar|verfügbarkeit|frei\b/,
-        da: /pris|koster|tilgængelig|ledig\b|belægning/,
-        en: /price|cost|available|availability|vacan|free pitch/,
-        no: /pris|koster|tilgjengelig|ledig|belegg/,
-        sv: /pris|kostar|tillgänglig|ledig|beläggning/
+           prices: {
+        de: /preis|kost(?:en|et|e|est)|gebühr|tarif/,
+        da: /pris|koster|betaling|takst/,
+        en: /price|cost|rate|fee/,
+        no: /pris|koster|betaling|takst/,
+        sv: /pris|kostar|avgift|taxa/
+      },
+      availability: {
+        de: /verfügbar|verfügbarkeit|frei(?:er|e|es|en)?\s+(?:stellplatz|platz)|noch\s+plätze\s+frei/,
+        da: /tilgængelig|ledig(?:e)?\s+plads(?:er)?|belægning/,
+        en: /available|availability|vacan|free pitch/,
+        no: /tilgjengelig|ledig(?:e)?\s+plass(?:er)?|belegg/,
+        sv: /tillgänglig|ledig(?:a)?\s+plats(?:er)?|beläggning/
       },
       bookingInterest: {
     de: /möchte.{0,150}(anreisen|buchen|reservieren|kommen|campen)|möchten.{0,150}(anreisen|buchen|reservieren|kommen|campen)|würde.{0,150}buchen|würden gerne.{0,150}campen/,
@@ -818,7 +874,8 @@ if (bookingInterest && !bookingInProgress) {
     const replies = [];
     if (matches("pitches") && !matches("prices")) replies.push(fact("pitches", responseLanguage));
     if (matches("accommodation")) replies.push(fact("accommodation", responseLanguage));
-    if (matches("checkin")) replies.push(`${fact("checkin", responseLanguage)} ${fact("checkout", responseLanguage)}`);
+    if (matches("lateArrival")) replies.push(fact("lateArrival", responseLanguage));
+    if (matches("checkin") && !matches("lateArrival")) replies.push(`${fact("checkin", responseLanguage)} ${fact("checkout", responseLanguage)}`);
     if (matches("dogs")) replies.push(fact("dogs", responseLanguage));
     if (/wi.?fi|internet/.test(q) || (responseLanguage === "de" && /wlan/.test(q))) replies.push(fact("wifi", responseLanguage));
     if (matches("electricity")) replies.push(fact("electricity", responseLanguage));
@@ -826,8 +883,14 @@ if (bookingInterest && !bookingInProgress) {
     if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
     if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
     if (matches("activities")) replies.push(fact("activities", responseLanguage));
+    if (matches("cancellation")) replies.push(fact("cancellation", responseLanguage));
+    if (matches("motorhomeDisposal")) replies.push(fact("motorhomeDisposal", responseLanguage));
+    if (matches("playground")) replies.push(fact("playground", responseLanguage));
+    if (matches("shopping")) replies.push(fact("shopping", responseLanguage));
+    if (matches("laundry")) replies.push(fact("laundry", responseLanguage));
     if (matches("waterSports")) replies.push(fact("waterSports", responseLanguage));
-    if (matches("contact")) {
+    if (matches("receptionHours")) replies.push(fact("receptionHours", responseLanguage));
+    if (matches("contact") && !matches("receptionHours")) {
       const channels = profile.contactChannels || {};
 
 const details = [
@@ -882,7 +945,15 @@ if (bookingRequest && bookingRequest.arrival !== null) {
 }
     if (bookingInterest && bookingRequest) return addMessage(replies[0]);
     
-if (matches("prices")) replies.push(window.TBD_LOCALES[responseLanguage]?.priceAvailability ?? window.TBD_LOCALES.de.priceAvailability);
+if (matches("prices")) {
+  replies.push(fact("prices", responseLanguage));
+}
+if (matches("availability")) {
+  replies.push(
+    window.TBD_LOCALES[responseLanguage]?.priceAvailability
+    ?? window.TBD_LOCALES.de.priceAvailability
+  );
+}    
     if (replies.length) return addMessage(replies.join("\n\n"));
     
 return addMessage(profileLocale(profile, responseLanguage).fallbackReply || fact("unknown", responseLanguage));
