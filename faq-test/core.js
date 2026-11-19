@@ -879,8 +879,12 @@ if (bookingInterest && !bookingInProgress) {
     if (matches("dogs")) replies.push(fact("dogs", responseLanguage));
     if (/wi.?fi|internet/.test(q) || (responseLanguage === "de" && /wlan/.test(q))) replies.push(fact("wifi", responseLanguage));
     if (matches("electricity")) replies.push(fact("electricity", responseLanguage));
-    if (matches("sanitary")) replies.push(fact("sanitary", responseLanguage));
-    if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
+if (matches("sanitary") && !matches("motorhomeDisposal")) {
+  replies.push(fact("sanitary", responseLanguage));
+}
+if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
+if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
+}    if (asksAboutWalkIn) replies.push(fact("walkIn", responseLanguage));
     if (matches("quiet")) replies.push(fact("quietPeriods", responseLanguage));
     if (matches("activities")) replies.push(fact("activities", responseLanguage));
     if (matches("cancellation")) replies.push(fact("cancellation", responseLanguage));
