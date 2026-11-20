@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TBD AI Solutions – Verbindungstest</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f3;
+      padding: 40px;
+      color: #123d32;
+    }
+
+    .box {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    button {
+      background: #287c50;
+      color: white;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>🏕️ TBD AI Solutions</h1>
+    <h2>Verbindungstest</h2>
+
+    <p>
+      Test der Verbindung zwischen unserer Webseite
+      und Google Apps Script.
+    </p>
+
+    <p>
+      Es werden ausschließlich fiktive Testdaten verwendet.
+    </p>
+
+    <button id="testButton">
+      Verbindung testen
+    </button>
+
+    <div id="status">
+      Bereit für den Verbindungstest.
+    </div>
+  </div>
+
+  <script>
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzSflC5zffGSNNj2Xabv83btMeAeOAL9zV5f4WmtTQltJzVqiIQKNlng-0TlmjwYlQb/exec";
+
+  document.getElementById("testButton")
+    .addEventListener("click", async function () {
+
+      const status = document.getElementById("status");
+
+      status.textContent = "Verbindung wird getestet ...";
+
+      const testDaten = {
+        testmodus: true,
+        campground: "TBD Test Campingplatz"
+      };
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(testDaten)
+        });
+
+        status.textContent =
+          "Testanfrage abgeschickt. Empfang noch nicht bestätigt.";
+
+      } catch (fehler) {
+        status.textContent =
+          "Verbindungsversuch fehlgeschlagen: " + fehler.message;
+      }
+
+    });
+</script>
+</body>
+</html>
