@@ -71,9 +71,10 @@
       status.textContent = "Verbindung wird getestet ...";
 
       const testDaten = {
-        testmodus: true,
-        campground: "TBD Test Campingplatz"
-      };
+  testmodus: true,
+  campground: "TBD Test Campingplatz",
+  testkennung: "TBD-GITHUB-TEST-164"
+};
 
       try {
         await fetch(WEB_APP_URL, {
