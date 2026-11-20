@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TBD AI Solutions – Verbindungstest</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f3;
+      padding: 40px;
+      color: #123d32;
+    }
+
+    .box {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    button {
+      background: #287c50;
+      color: white;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>🏕️ TBD AI Solutions</h1>
+    <h2>Verbindungstest</h2>
+
+    <p>
+      Test der Verbindung zwischen unserer Webseite
+      und Google Apps Script.
+    </p>
+
+    <p>
+      Es werden ausschließlich fiktive Testdaten verwendet.
+    </p>
+
+    <button id="testButton">
+      Verbindung testen
+    </button>
+
+    <div id="status">
+      Bereit für den Verbindungstest.
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("testButton")
+      .addEventListener("click", function () {
+
+        document.getElementById("status").textContent =
+          "Testseite funktioniert. Verbindung noch nicht aktiviert.";
+
+      });
+  </script>
+</body>
+</html>
