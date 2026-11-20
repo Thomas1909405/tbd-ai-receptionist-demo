@@ -61,13 +61,39 @@
   </div>
 
   <script>
-    document.getElementById("testButton")
-      .addEventListener("click", function () {
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzSflC5zffGSNNj2Xabv83btMeAeOAL9zV5f4WmtTQltJzVqiIQKNlng-0TlmjwYlQb/exec";
 
-        document.getElementById("status").textContent =
-          "Testseite funktioniert. Verbindung noch nicht aktiviert.";
+  document.getElementById("testButton")
+    .addEventListener("click", async function () {
 
-      });
-  </script>
+      const status = document.getElementById("status");
+
+      status.textContent = "Verbindung wird getestet ...";
+
+      const testDaten = {
+        testmodus: true,
+        campground: "TBD Test Campingplatz"
+      };
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(testDaten)
+        });
+
+        status.textContent =
+          "Testanfrage abgeschickt. Empfang noch nicht bestätigt.";
+
+      } catch (fehler) {
+        status.textContent =
+          "Verbindungsversuch fehlgeschlagen: " + fehler.message;
+      }
+
+    });
+</script>
 </body>
 </html>
